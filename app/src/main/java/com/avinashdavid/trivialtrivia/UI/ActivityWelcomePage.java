@@ -2,6 +2,7 @@ package com.avinashdavid.trivialtrivia.UI;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Build;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -13,8 +14,10 @@ import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.avinashdavid.trivialtrivia.R;
+import com.avinashdavid.trivialtrivia.data.QuizDBContract;
 
 import java.io.IOException;
 
@@ -52,8 +55,19 @@ public class ActivityWelcomePage extends AppCompatActivity {
         statsCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ActivityWelcomePage.this, ActivityStatistics.class);
-                startActivity(intent);
+                Cursor cursor = getContentResolver().query(QuizDBContract.QuizEntry.CONTENT_URI, new String[]{QuizDBContract.QuizEntry._ID},
+                        null, null, null);
+                int cursorCount = 0;
+                if (cursor.moveToFirst()){
+                    cursorCount = cursor.getCount();
+                }
+                if (cursorCount<=0){
+                    Toast.makeText(ActivityWelcomePage.this, R.string.no_stats, Toast.LENGTH_LONG).show();
+                } else {
+                    Intent intent = new Intent(ActivityWelcomePage.this, ActivityStatistics.class);
+                    startActivity(intent);
+                }
+                cursor.close();
             }
         });
 

@@ -11,6 +11,8 @@
     <string name="instructions_subtitle">Pretty simple, I promise</string>
     <string name="acknowledgements_subtitle">Question and image sources</string>
 
+    <string name="no_stats">There are no statistics. Please complete a quiz first.</string>
+
     <!--activity names-->
     <string name="home">Home</string>
     <string name="quiz">Quiz</string>
