@@ -10,12 +10,16 @@ import com.avinashdavid.trivialtrivia.questions.IndividualQuestion;
  * Created by avinashdavid on 11/4/16.
  */
 
+/**
+ * This is a standard database contract class as outlined in the Android Developer training section
+ */
 public class QuizDBContract {
     public static final String CONTENT_AUTHORITY = "com.avinashdavid.trivialtrivia.data";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://"+CONTENT_AUTHORITY);
 
     public QuizDBContract() {
     }
+
 
     public static abstract class QuizEntry implements BaseColumns{
         public static final String TABLE_NAME = "quizEntry";
@@ -33,6 +37,7 @@ public class QuizDBContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_QUIZ;
 
+        //The following 5 methods are to build URIs for various selections of data in the quiz table. These URIs will be recognized by the content provider to look up desired data
         public static Uri buildUriQuizId(long id){
             Uri uri = CONTENT_URI.buildUpon().appendPath(Long.toString(id)).build();
 ////            Log.d("testCategoryId",uri.toString());
@@ -79,6 +84,7 @@ public class QuizDBContract {
             return uri;
         }
 
+        //The following 7 methods are to build URIs for various selections of data in the quiz table. These URIs will be recognized by the content provider to look up desired data
         public static Uri buildUriCategoryIndex(int index){
             Uri uri = CONTENT_URI.buildUpon().appendPath(Integer.toString(index + 1)).build();
 ////            Log.d("testCategoryId",uri.toString());

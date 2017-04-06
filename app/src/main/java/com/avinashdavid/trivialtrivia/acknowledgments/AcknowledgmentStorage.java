@@ -8,6 +8,10 @@ import java.util.ArrayList;
  * Created by avinashdavid on 12/5/16.
  */
 
+/**
+ * This class provides the model for acknowledgments.
+ * Each acknowledgment has been explicitly created. No constructor has been provided, choosing instead to create the acknowledgments on demand via a method call
+ */
 public class AcknowledgmentStorage {
     private static ArrayList<AcknowledgmentObject> sQuestionsAcknowledgmentObjects;
     private static ArrayList<AcknowledgmentObject> sImagesAcknowledgementObjects;
@@ -21,6 +25,7 @@ public class AcknowledgmentStorage {
 //        }
 //    }
 
+    //static factory method for content acknowledgments
     public static ArrayList<AcknowledgmentObject> getQuestionsAcknowledgmentObjects() {
         if (sQuestionsAcknowledgmentObjects == null){
             sQuestionsAcknowledgmentObjects = createQuestionAcknowledgmentArrayList();
@@ -28,6 +33,7 @@ public class AcknowledgmentStorage {
         return sQuestionsAcknowledgmentObjects;
     }
 
+    //static factory method for image acknowledgments
     public static ArrayList<AcknowledgmentObject> getImagesAcknowledgementObjects() {
         if (sImagesAcknowledgementObjects == null){
             sImagesAcknowledgementObjects = createImageAcknowledgementArrayList();
@@ -35,6 +41,7 @@ public class AcknowledgmentStorage {
         return sImagesAcknowledgementObjects;
     }
 
+    //method to explicitly add all content acknowledgments
     private static ArrayList<AcknowledgmentObject> createQuestionAcknowledgmentArrayList(){
         ArrayList<AcknowledgmentObject> returnList = new ArrayList<>();
         returnList.add(new AcknowledgmentObject("IndiaBIX", "http://www.indiabix.com/"));
@@ -50,6 +57,7 @@ public class AcknowledgmentStorage {
         return returnList;
     }
 
+    //method to explicitly add all image acknowledgments
     private static ArrayList<AcknowledgmentObject> createImageAcknowledgementArrayList(){
         ArrayList<AcknowledgmentObject> returnList = new ArrayList<>();
         returnList.add(new AcknowledgmentObject("Vlad Marin on Iconfinder", "https://www.iconfinder.com/quizanswers"));

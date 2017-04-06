@@ -32,6 +32,7 @@ public class QuestionsHandling {
     public static final String KEY_CHOICES = "choices";
     public static final String KEY_CORRECTANSWER = "correctAnswer";
 
+    //indices of the elements in the ArrayList created by makeDisplayQuestionObject method
     public static final int INDEX_CATEGORY = 0;
     public static final int INDEX_QUESTION = 1;
     public static final int INDEX_CHOICE_1 = 2;
@@ -39,7 +40,7 @@ public class QuestionsHandling {
     public static final int INDEX_CHOICE_3 = 4;
     public static final int INDEX_CHOICE_4 = 5;
 
-    //private constructor for singleton aspect
+    //private constructor for singleton property. This will be a large object that only needs to be constructed once while it can be helped
     private QuestionsHandling(Context context) {
         this.mContext = context;
         this.mMasterJSONString = loadJSONFromAsset();
@@ -111,6 +112,7 @@ public class QuestionsHandling {
         return returnList;
     }
 
+    //make and return a random set of questions, with a different set being returned for different quiz numbers
     public ArrayList<IndividualQuestion> getRandomQuestionSet(int size, int quizNumber){
         if (quizNumber != QUIZ_NUMBER || mCurrentSetOfQuestions == null) {
             if (mALLIndividualQuestions==null){
@@ -123,10 +125,12 @@ public class QuestionsHandling {
         return mCurrentSetOfQuestions;
     }
 
+    //return the full set of questions (initialized at object creation)
     public ArrayList<IndividualQuestion> getFullQuestionSet(){
         return mALLIndividualQuestions;
     }
 
+    //make an ArrayList of strings for an IndividualQuestion object that can be used to display in the quiz
     public static ArrayList<String> makeDisplayQuestionObject(IndividualQuestion thisQuestion){
         ArrayList<String> displayList = new ArrayList<>(6);
         displayList.add(INDEX_CATEGORY, IndividualQuestion.categoryList.get(thisQuestion.category));

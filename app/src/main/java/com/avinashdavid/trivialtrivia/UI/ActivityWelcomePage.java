@@ -2,6 +2,7 @@ package com.avinashdavid.trivialtrivia.UI;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +25,9 @@ public class ActivityWelcomePage extends AppCompatActivity {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_page);
-        setupWindowAnimations();
+        if (Build.VERSION.SDK_INT>=21) {
+            setupWindowAnimations();
+        }
 
         ImageView imageView = (ImageView)findViewById(R.id.imageview_welcome_page);
         imageView.getLayoutParams().height = 300;
@@ -73,8 +76,12 @@ public class ActivityWelcomePage extends AppCompatActivity {
 
     @TargetApi(21)
     private void setupWindowAnimations(){
-        Fade fade = (Fade) TransitionInflater.from(this).inflateTransition(R.transition.activity_fade);
-        getWindow().setExitTransition(fade);
+        try {
+            Fade fade = (Fade) TransitionInflater.from(this).inflateTransition(R.transition.activity_fade);
+            getWindow().setExitTransition(fade);
+        } catch (NoClassDefFoundError e){
+
+        }
     }
 
     @Override
