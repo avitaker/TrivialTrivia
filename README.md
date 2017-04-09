@@ -1,6 +1,10 @@
 # TrivialTrivia
-Remake of "trivial trivia" with native Android code and a truer implementation of Model-View-Presenter paradigm. 
+Remake of "trivial trivia" with native Android code and a truer implementation of Model-View-Presenter paradigm.
 
+## Installation
+Import into Android Studio
+
+## Description
 This is a remake of my first published app, which was called "Trivial Trivia". On the Play Store, this version of the app can be found under the name "Trivial Trivia 2". 
 The purpose of this publish is to exhibit the programming involved in the making of this app. 
 Along the way, I have learned a lot about testing in Android development, which I used extensively while setting up the backend of the app before creating the UI. 
