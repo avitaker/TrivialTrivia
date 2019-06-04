@@ -15,6 +15,7 @@ import com.avinashdavid.trivialtrivia.scoring.QuestionScorer;
 import com.avinashdavid.trivialtrivia.scoring.QuizScorer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by avinashdavid on 11/29/16.
@@ -24,7 +25,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     private static final String LOG_TAG = "CardAdapterClass";
     private Context mContext;
     private ArrayList<QuestionScorer> mData;
-    private ArrayList<IndividualQuestion> individualQuestions;
+    private List<IndividualQuestion> individualQuestions;
 
     private static final int VIEW_TYPE_FIRST = 0;
     private static final int VIEW_TYPE_ALL_OTHERS = 1;

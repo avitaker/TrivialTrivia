@@ -12,6 +12,7 @@ import com.avinashdavid.trivialtrivia.R;
 import com.avinashdavid.trivialtrivia.questions.QuestionsHandling;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by avinashdavid on 11/27/16.
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 
 @TargetApi(13)
 public class FragmentQuestionHoneycomb extends android.app.Fragment {
-    private ArrayList<String> mCurrentDisplayQuestion;
+    private List<String> mCurrentDisplayQuestion;
 
     private TextView mQuestionView;
     private TextView mChoice1TextView;
@@ -27,7 +28,7 @@ public class FragmentQuestionHoneycomb extends android.app.Fragment {
     private TextView mChoice3TextView;
     private TextView mChoice4TextView;
 
-    public static android.app.Fragment getInstance(ArrayList<String> currentQuestion){
+    public static android.app.Fragment getInstance(List<String> currentQuestion){
         FragmentQuestionHoneycomb fragmentQuestion = new FragmentQuestionHoneycomb();
         fragmentQuestion.mCurrentDisplayQuestion = currentQuestion;
         return fragmentQuestion;

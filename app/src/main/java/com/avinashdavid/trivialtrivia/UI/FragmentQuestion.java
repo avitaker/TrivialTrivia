@@ -13,13 +13,14 @@ import com.avinashdavid.trivialtrivia.R;
 import com.avinashdavid.trivialtrivia.questions.QuestionsHandling;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by avinashdavid on 11/27/16.
  */
 
 public class FragmentQuestion extends Fragment {
-    private ArrayList<String> mCurrentDisplayQuestion;
+    private List<String> mCurrentDisplayQuestion;
 
     private TextView mQuestionView;
     private Button mChoice1TextView;
@@ -27,7 +28,7 @@ public class FragmentQuestion extends Fragment {
     private Button mChoice3TextView;
     private Button mChoice4TextView;
 
-    public static Fragment getInstance(ArrayList<String> currentQuestion){
+    public static Fragment getInstance(List<String> currentQuestion){
         FragmentQuestion fragmentQuestion = new FragmentQuestion();
         fragmentQuestion.mCurrentDisplayQuestion = currentQuestion;
         return fragmentQuestion;

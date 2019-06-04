@@ -30,6 +30,7 @@ import com.avinashdavid.trivialtrivia.scoring.QuizScorer;
 import com.avinashdavid.trivialtrivia.services.InsertRecordsService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ActivityQuiz extends AppCompatActivity {
     private int QUIZ_NUMBER;
@@ -42,8 +43,8 @@ public class ActivityQuiz extends AppCompatActivity {
     private CardView mCardView;
     private TextView mNumberTextView;
     private TextView mCategoryTextView;
-    private static ArrayList<IndividualQuestion> sIndividualQuestions;
-    private ArrayList<String> mCurrentDisplayQuestion;
+    private static List<IndividualQuestion> sIndividualQuestions;
+    private List<String> mCurrentDisplayQuestion;
     private int mQuestionNumber;
     private Button mNextQuestionButton;
     private Button mPreviousQuestionButton;

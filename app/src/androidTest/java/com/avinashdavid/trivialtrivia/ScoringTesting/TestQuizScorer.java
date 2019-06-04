@@ -15,8 +15,10 @@ import com.avinashdavid.trivialtrivia.questions.IndividualQuestion;
 import com.avinashdavid.trivialtrivia.questions.QuestionsHandling;
 import com.avinashdavid.trivialtrivia.scoring.QuestionScorer;
 import com.avinashdavid.trivialtrivia.scoring.QuizScorer;
+import com.avinashdavid.trivialtrivia.web.services.LocalQuestionService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by avinashdavid on 11/2/16.
@@ -34,8 +36,8 @@ public class TestQuizScorer extends AndroidTestCase {
         mContext = context;
         QuizDBHelper.getInstance(mContext).getWritableDatabase().delete(QuizDBContract.QuizEntry.TABLE_NAME,null,null);
         QuizDBHelper.getInstance(mContext).getWritableDatabase().delete(QuizDBContract.CategoryEntry.TABLE_NAME,null,null);
-        QuestionsHandling questionsHandling = QuestionsHandling.getInstance(mContext, 0);
-        ArrayList<IndividualQuestion> allQuestions = questionsHandling.getFullQuestionSet();
+        LocalQuestionService questionsService = new LocalQuestionService(getContext());
+        List<IndividualQuestion> allQuestions = questionsService.getFullQuestionSet();
         IndividualQuestion firstQuestion = allQuestions.get(0);
         IndividualQuestion secondQuestion = allQuestions.get(1);
         IndividualQuestion thirdQuestion = allQuestions.get(2);
