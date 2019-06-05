@@ -1,7 +1,6 @@
 package com.avinashdavid.trivialtrivia.web.services;
 
 import com.avinashdavid.trivialtrivia.questions.IndividualQuestion;
-import com.avinashdavid.trivialtrivia.questions.Questions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -54,6 +53,20 @@ public class RemoteQuestionService implements QuestionsService {
     private interface QuestionService {
         @GET("/questionsJSON.json")
         Call<Questions> getQuestions();
+    }
+
+    class Questions {
+
+        List<IndividualQuestion> questions;
+
+        public List<IndividualQuestion> getQuestions() {
+            return questions;
+        }
+
+        public void setQuestions(List<IndividualQuestion> questions) {
+            this.questions = questions;
+        }
+
     }
 
     class DataStateDeserializer implements JsonDeserializer<IndividualQuestion> {
