@@ -74,7 +74,7 @@ public class RemoteQuestionService implements QuestionsService {
                 choicesList[l] = choiceArray.get(l).getAsString();
             }
             int correctAnswer = thisQuestion.get(KEY_CORRECTANSWER).getAsInt();
-            return new IndividualQuestion(category, question, choicesList, correctAnswer);
+            return new IndividualQuestion(0, category, question, choicesList, correctAnswer);
         }
     }
 }
