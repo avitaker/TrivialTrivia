@@ -19,7 +19,7 @@ public class TestQuestionScorer extends AndroidTestCase {
         LocalQuestionService questionsService = new LocalQuestionService(getContext());
         List<IndividualQuestion> allQuestions = questionsService.getFullQuestionSet();
         IndividualQuestion fifthQuestion = allQuestions.get(4);
-        QuestionScorer questionScorer = new QuestionScorer(fifthQuestion.questionNumber, fifthQuestion.category,fifthQuestion.correctAnswer,2);
+        QuestionScorer questionScorer = new QuestionScorer(-1, fifthQuestion.category,fifthQuestion.correctAnswer,2);
         assertEquals(false,questionScorer.getQuestionEvaluation());
     }
 }

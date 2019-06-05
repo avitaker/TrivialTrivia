@@ -140,7 +140,7 @@ public class ActivityQuiz extends AppCompatActivity {
                 mSecondsTextview.setTextColor(getResources().getColor(R.color.darker_gray));
                 mProgressBar.setProgress(0);
                 IndividualQuestion currentQuestion = sIndividualQuestions.get(mQuestionNumber);
-                sQuizScorer.addQuestionScorer(currentQuestion.questionNumber, currentQuestion.category, currentQuestion.correctAnswer, QuestionScorer.NO_ANSWER);
+                sQuizScorer.addQuestionScorer(mQuestionNumber, currentQuestion.category, currentQuestion.correctAnswer, QuestionScorer.NO_ANSWER);
                 goToNextQuestion();
                 mTicknumber=0;
             }
@@ -227,7 +227,7 @@ public class ActivityQuiz extends AppCompatActivity {
                 public void onFinish() {
                     mProgressBar.setProgress(0);
                     IndividualQuestion currentQuestion = sIndividualQuestions.get(mQuestionNumber);
-                    sQuizScorer.addQuestionScorer(currentQuestion.questionNumber, currentQuestion.category, currentQuestion.correctAnswer, QuestionScorer.NO_ANSWER);
+                    sQuizScorer.addQuestionScorer(mQuestionNumber, currentQuestion.category, currentQuestion.correctAnswer, QuestionScorer.NO_ANSWER);
                     goToNextQuestion();
 //                    if (mQuestionNumber < mQuizSize) {
 //                        this.start();
@@ -319,7 +319,7 @@ public class ActivityQuiz extends AppCompatActivity {
         IndividualQuestion currentQuestion = sIndividualQuestions.get(mQuestionNumber);
         int timeTaken = maxTime - mCurrentSeconds;
         try {
-            sQuizScorer.addQuestionScorer(currentQuestion.questionNumber, currentQuestion.category, timeTaken, currentQuestion.correctAnswer, chosenAnswer);
+            sQuizScorer.addQuestionScorer(mQuestionNumber, currentQuestion.category, timeTaken, currentQuestion.correctAnswer, chosenAnswer);
 //            Log.d("quizTracker", Integer.toString(mQuestionNumber) + ": chosen answer is " + Integer.toString(chosenAnswer) + " correct answer is " +Integer.toString(currentQuestion.correctAnswer));
         } finally {
             goToNextQuestion();

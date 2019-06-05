@@ -43,13 +43,13 @@ public class TestQuizScorer extends AndroidTestCase {
         IndividualQuestion thirdQuestion = allQuestions.get(2);
         IndividualQuestion fourthQuestion = allQuestions.get(3);
         IndividualQuestion fifthQuestion = allQuestions.get(4);
-        QuestionScorer firstQuestionScorer = new QuestionScorer(firstQuestion.questionNumber, firstQuestion.category, firstQuestion.correctAnswer, 0);
+        QuestionScorer firstQuestionScorer = new QuestionScorer(0, firstQuestion.category, firstQuestion.correctAnswer, 0);
         firstQuestionScorer.setTimeTaken(4);
-        QuestionScorer secondQuestionScorer = new QuestionScorer(secondQuestion.questionNumber, secondQuestion.category, 5, secondQuestion.correctAnswer, 3);
-        QuestionScorer thirdQuestionScorer = new QuestionScorer(thirdQuestion.questionNumber, thirdQuestion.category, 7, thirdQuestion.correctAnswer, 2);
-        QuestionScorer fourthQuestionScorer = new QuestionScorer(fourthQuestion.questionNumber, fourthQuestion.category, fourthQuestion.correctAnswer, 0);
+        QuestionScorer secondQuestionScorer = new QuestionScorer(1, secondQuestion.category, 5, secondQuestion.correctAnswer, 3);
+        QuestionScorer thirdQuestionScorer = new QuestionScorer(2, thirdQuestion.category, 7, thirdQuestion.correctAnswer, 2);
+        QuestionScorer fourthQuestionScorer = new QuestionScorer(3, fourthQuestion.category, fourthQuestion.correctAnswer, 0);
         fourthQuestionScorer.setTimeTaken(3);
-        QuestionScorer fifthQuestionScorer = new QuestionScorer(fifthQuestion.questionNumber, fifthQuestion.category, 10, fifthQuestion.correctAnswer, 3);
+        QuestionScorer fifthQuestionScorer = new QuestionScorer(4, fifthQuestion.category, 10, fifthQuestion.correctAnswer, 3);
         mQuizScorer = QuizScorer.getInstance(mContext,5,0);
         mQuizScorer.addQuestionScorer(firstQuestionScorer);
         mQuizScorer.addQuestionScorer(secondQuestionScorer);

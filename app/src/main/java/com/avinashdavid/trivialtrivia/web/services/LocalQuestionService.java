@@ -82,7 +82,7 @@ public class LocalQuestionService implements QuestionsService {
                     choicesList[l] = choiceArray.getString(l);
                 }
                 int correctAnswer = thisQuestion.getInt(KEY_CORRECTANSWER);
-                IndividualQuestion individualQuestion = new IndividualQuestion(i, category,question,choicesList,correctAnswer);
+                IndividualQuestion individualQuestion = new IndividualQuestion(category,question,choicesList,correctAnswer);
                 mALLIndividualQuestions.add(i,individualQuestion);
             }
         } catch (JSONException e){
