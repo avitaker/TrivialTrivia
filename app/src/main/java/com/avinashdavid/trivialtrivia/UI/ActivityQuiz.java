@@ -2,7 +2,6 @@ package com.avinashdavid.trivialtrivia.UI;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -12,8 +11,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.transition.TransitionInflater;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -140,7 +137,7 @@ public class ActivityQuiz extends AppCompatActivity {
                 mSecondsTextview.setTextColor(getResources().getColor(R.color.darker_gray));
                 mProgressBar.setProgress(0);
                 IndividualQuestion currentQuestion = sIndividualQuestions.get(mQuestionNumber);
-                sQuizScorer.addQuestionScorer(mQuestionNumber, currentQuestion.category, currentQuestion.correctAnswer, QuestionScorer.NO_ANSWER);
+                sQuizScorer.addQuestionScorer(currentQuestion, mQuestionNumber, QuestionScorer.NO_ANSWER);
                 goToNextQuestion();
                 mTicknumber=0;
             }
@@ -227,7 +224,7 @@ public class ActivityQuiz extends AppCompatActivity {
                 public void onFinish() {
                     mProgressBar.setProgress(0);
                     IndividualQuestion currentQuestion = sIndividualQuestions.get(mQuestionNumber);
-                    sQuizScorer.addQuestionScorer(mQuestionNumber, currentQuestion.category, currentQuestion.correctAnswer, QuestionScorer.NO_ANSWER);
+                    sQuizScorer.addQuestionScorer(currentQuestion, mQuestionNumber, QuestionScorer.NO_ANSWER);
                     goToNextQuestion();
 //                    if (mQuestionNumber < mQuizSize) {
 //                        this.start();
@@ -319,7 +316,7 @@ public class ActivityQuiz extends AppCompatActivity {
         IndividualQuestion currentQuestion = sIndividualQuestions.get(mQuestionNumber);
         int timeTaken = maxTime - mCurrentSeconds;
         try {
-            sQuizScorer.addQuestionScorer(mQuestionNumber, currentQuestion.category, timeTaken, currentQuestion.correctAnswer, chosenAnswer);
+            sQuizScorer.addQuestionScorer(currentQuestion, timeTaken, chosenAnswer);
 //            Log.d("quizTracker", Integer.toString(mQuestionNumber) + ": chosen answer is " + Integer.toString(chosenAnswer) + " correct answer is " +Integer.toString(currentQuestion.correctAnswer));
         } finally {
             goToNextQuestion();

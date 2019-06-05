@@ -8,6 +8,6 @@ public interface QuestionsService {
 
     List<IndividualQuestion> getQuestions(int numberOfQuestions);
 
-    List<IndividualQuestion> getFullQuestionSet();
+//    List<IndividualQuestion> getFullQuestionSet();
 
 }

@@ -43,9 +43,9 @@ public class QuestionsHandling {
         return mCurrentSetOfQuestions;
     }
 
-    //return the full set of questions (initialized at object creation)
-    public List<IndividualQuestion> getFullQuestionSet(){
-        return questionsService.getFullQuestionSet();
-    }
+//    //return the full set of questions (initialized at object creation)
+//    public List<IndividualQuestion> getFullQuestionSet(){
+//        return questionsService.getFullQuestionSet();
+//    }
 
 }

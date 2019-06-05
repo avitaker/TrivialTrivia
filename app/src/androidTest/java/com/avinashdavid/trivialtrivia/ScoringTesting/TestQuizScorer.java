@@ -2,17 +2,13 @@ package com.avinashdavid.trivialtrivia.ScoringTesting;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 import android.util.Log;
 
-import com.avinashdavid.trivialtrivia.Utility;
 import com.avinashdavid.trivialtrivia.data.QuizDBContract;
 import com.avinashdavid.trivialtrivia.data.QuizDBHelper;
 import com.avinashdavid.trivialtrivia.questions.IndividualQuestion;
-import com.avinashdavid.trivialtrivia.questions.QuestionsHandling;
 import com.avinashdavid.trivialtrivia.scoring.QuestionScorer;
 import com.avinashdavid.trivialtrivia.scoring.QuizScorer;
 import com.avinashdavid.trivialtrivia.web.services.LocalQuestionService;
@@ -43,13 +39,13 @@ public class TestQuizScorer extends AndroidTestCase {
         IndividualQuestion thirdQuestion = allQuestions.get(2);
         IndividualQuestion fourthQuestion = allQuestions.get(3);
         IndividualQuestion fifthQuestion = allQuestions.get(4);
-        QuestionScorer firstQuestionScorer = new QuestionScorer(0, firstQuestion.category, firstQuestion.correctAnswer, 0);
+        QuestionScorer firstQuestionScorer = new QuestionScorer(firstQuestion, 0, 0);
         firstQuestionScorer.setTimeTaken(4);
-        QuestionScorer secondQuestionScorer = new QuestionScorer(1, secondQuestion.category, 5, secondQuestion.correctAnswer, 3);
-        QuestionScorer thirdQuestionScorer = new QuestionScorer(2, thirdQuestion.category, 7, thirdQuestion.correctAnswer, 2);
-        QuestionScorer fourthQuestionScorer = new QuestionScorer(3, fourthQuestion.category, fourthQuestion.correctAnswer, 0);
+        QuestionScorer secondQuestionScorer = new QuestionScorer(secondQuestion,  5, 3);
+        QuestionScorer thirdQuestionScorer = new QuestionScorer(thirdQuestion, 7, 2);
+        QuestionScorer fourthQuestionScorer = new QuestionScorer(fourthQuestion, 3, 0);
         fourthQuestionScorer.setTimeTaken(3);
-        QuestionScorer fifthQuestionScorer = new QuestionScorer(4, fifthQuestion.category, 10, fifthQuestion.correctAnswer, 3);
+        QuestionScorer fifthQuestionScorer = new QuestionScorer(fifthQuestion, 10, 3);
         mQuizScorer = QuizScorer.getInstance(mContext,5,0);
         mQuizScorer.addQuestionScorer(firstQuestionScorer);
         mQuizScorer.addQuestionScorer(secondQuestionScorer);

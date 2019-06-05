@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.avinashdavid.trivialtrivia.Utility;
 import com.avinashdavid.trivialtrivia.data.QuizDBContract;
@@ -13,7 +12,6 @@ import com.avinashdavid.trivialtrivia.questions.IndividualQuestion;
 
 import java.util.ArrayList;
 
-import static android.R.attr.id;
 import static com.avinashdavid.trivialtrivia.questions.IndividualQuestion.categoryList;
 
 /**
@@ -233,17 +231,15 @@ public class QuizScorer {
     }
 
     //add a QuestionScorer to the member list of QuestionScorers with internal call of QuestionScorer constructor (no time taken)
-    public void addQuestionScorer(int questionNumber, int category, int correctAnswer, int chosenAnswer){
-        QuestionScorer questionScorer = new QuestionScorer(questionNumber, category, correctAnswer,chosenAnswer);
-        mQuestionScorers.add(currentQuestionCount,questionScorer);
-        currentQuestionCount++;
+    public void addQuestionScorer(IndividualQuestion question, int chosenAnswer){
+        QuestionScorer questionScorer = new QuestionScorer(question, chosenAnswer);
+        mQuestionScorers.add(currentQuestionCount++,questionScorer);
     }
 
     //add a QuestionScorer to the member list of QuestionScorers with internal call of QuestionScorer constructor (with time taken)
-    public void addQuestionScorer(int questionNumber, int category, int timeTaken, int correctAnswer, int chosenAnswer){
-        QuestionScorer questionScorer = new QuestionScorer(questionNumber, category, timeTaken, correctAnswer,chosenAnswer);
-        mQuestionScorers.add(currentQuestionCount,questionScorer);
-        currentQuestionCount++;
+    public void addQuestionScorer(IndividualQuestion question, int timeTaken, int chosenAnswer){
+        QuestionScorer questionScorer = new QuestionScorer(question, timeTaken, chosenAnswer);
+        mQuestionScorers.add(currentQuestionCount++,questionScorer);
     }
 
     //add a pre-constructed QuestionScorer to the member list of QuestionScorers
@@ -291,7 +287,7 @@ public class QuizScorer {
 //            Log.d("getCategoryScoreReport", "checkpoint 4: i iteration " + Integer.toString(i));
             QuestionScorer thisQuestionScorer = mQuestionScorers.get(i);
             for (int c = 0; c < numberOfCategories; c++){
-                if (thisQuestionScorer.getCategory()==c){
+                if (thisQuestionScorer.getQuestion().category==c){
 //                    Log.d("getCategoryScoreReport", "checkpoint 4.1: c iteration " + Integer.toString(c) + " i iteration " + Integer.toString(i));
                     totalCategoryQuestions[c] = totalCategoryQuestions[c]+1;
 //                    Log.d("getCategoryScoreReport", "checkpoint 4.2: c iteration " + Integer.toString(c) + " i iteration " + Integer.toString(i));
@@ -384,7 +380,7 @@ public class QuizScorer {
 //            Log.d(LOG_TAG + "overallTime " + Integer.toString(i), Double.toString(correctOverallTimes[i]));
 
             for (int c = 0; c < numberOfCategories; c++){
-                if (thisQuestionScorer.getCategory()==c){
+                if (thisQuestionScorer.getQuestion().category==c){
                     overallCategoryTimes[c] += thisQuestionScorer.getTimeTaken();
                     if (thisQuestionScorer.getQuestionEvaluation()){
                         correctCategoryTimes[c] += thisQuestionScorer.getTimeTaken();

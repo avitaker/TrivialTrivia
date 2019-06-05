@@ -45,11 +45,6 @@ public class RemoteQuestionService implements QuestionsService {
         }
     }
 
-    @Override
-    public List<IndividualQuestion> getFullQuestionSet() {
-        return null;
-    }
-
     private interface QuestionService {
         @GET("/questionsJSON.json")
         Call<Questions> getQuestions();
@@ -87,7 +82,7 @@ public class RemoteQuestionService implements QuestionsService {
                 choicesList[l] = choiceArray.get(l).getAsString();
             }
             int correctAnswer = thisQuestion.get(KEY_CORRECTANSWER).getAsInt();
-            return new IndividualQuestion(0, category, question, choicesList, correctAnswer);
+            return new IndividualQuestion(category, question, choicesList, correctAnswer);
         }
     }
 }
