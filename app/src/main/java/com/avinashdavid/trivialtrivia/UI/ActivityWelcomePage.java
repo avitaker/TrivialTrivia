@@ -31,6 +31,7 @@ public class ActivityWelcomePage extends AppCompatActivity {
         if (Build.VERSION.SDK_INT>=21) {
             setupWindowAnimations();
         }
+        Boolean isUserLoggedIn = false;
 
         ImageView imageView = (ImageView)findViewById(R.id.imageview_welcome_page);
         imageView.getLayoutParams().height = 300;
@@ -86,6 +87,19 @@ public class ActivityWelcomePage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if(extras != null) {
+            String userStr = extras.getString("isUserLoggedIn");
+            if (userStr != null && !userStr.isEmpty()) {
+                isUserLoggedIn = true;
+            }
+        }
+        if (!isUserLoggedIn) {
+            intent = new Intent(ActivityWelcomePage.this, UserLogin.class);
+            startActivity(intent);
+        }
     }
 
     @TargetApi(21)

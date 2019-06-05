@@ -52,10 +52,17 @@
             android:theme="@style/AppTheme.Launcher"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".UI.ActivityAcknowledgments"
-                  android:parentActivityName=".UI.ActivityWelcomePage"
-                  android:theme="@style/AppTheme.Launcher"
-                  android:screenOrientation="portrait">
+
+        <activity android:name=".UI.UserRegistration"
+            android:parentActivityName=".UI.ActivityWelcomePage"
+            android:theme="@style/AppTheme.Launcher"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity android:name=".UI.UserLogin"
+            android:parentActivityName=".UI.ActivityWelcomePage"
+            android:theme="@style/AppTheme.Launcher"
+            android:screenOrientation="portrait">
         </activity>
     </application>
     <uses-permission android:name="android.permission.VIBRATE"/>

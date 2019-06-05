@@ -4,6 +4,8 @@
     <string name="statistics">Statistics</string>
     <string name="instructions">Instructions</string>
     <string name="acknowledgements">Acknowledgements</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
 
     <!--welcome page subtitles-->
     <string name="start_subtitle">200 seconds of pain!</string>
@@ -88,5 +90,61 @@
         <item>Sports</item>
     </string-array>
 
+    <!--Login-->
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login_button">Submit</string>
+    <string name="register_button">Register</string>
+
+    <!--Register-->
+    <string name="reg_username">Username</string>
+    <string name="reg_password">Password</string>
+    <string name="reg_confirm_password">Confirm Password</string>
+    <string name="reg_studentID">Student ID</string>
+    <string name="reg_firstName">First Name</string>
+    <string name="reg_MiddleInitial">Middle Initial</string>
+    <string name="reg_lastName">Last Name</string>
+    <string name="reg_dateOfBirth">Date of Birth</string>
+    <string name="reg_gender">Gender</string>
+    <string name="reg_gradeLevel">Grade Level</string>
+    <string name="reg_course">Course</string>
+    <string name="reg_continue">Continue</string>
+
+    <!--Gender-->
+    <string-array name="gender">
+        <item>Select Gender</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+    <string name="reg_gender_prompt">Select Gender</string>
+
+    <!--Course-->
+    <string-array name="courses">
+        <item>Select Course</item>
+        <item>Economics</item>
+        <item>Personal Finance</item>
+        <item>Business Class</item>
+        <item>Consumer Science</item>
+        <item>Mathematics</item>
+        <item>Financial Planning</item>
+        <item>Academy of Finance</item>
+        <item>Entrepreneurship</item>
+        <item>Principles of Business</item>
+        <item>Marketing</item>
+        <item>Other</item>
+    </string-array>
+    <string name="reg_course_prompt">Select Course</string>
+
+    <!--Grade Level-->
+    <string-array name="gradeLevel">
+        <item>Select Grade</item>
+        <item>9th Grade</item>
+        <item>10th Grade</item>
+        <item>11th Grade</item>
+        <item>12th Grade</item>
+        <item>Community College</item>
+        <item>College</item>
+    </string-array>
+    <string name="reg_grade_prompt">Select Grade</string>
 
 </resources>
