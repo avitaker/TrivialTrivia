@@ -44,7 +44,6 @@ public class ActivityQuiz extends AppCompatActivity {
     private TextView mNumberTextView;
     private TextView mCategoryTextView;
     private static List<IndividualQuestion> sIndividualQuestions;
-    private List<String> mCurrentDisplayQuestion;
     private int mQuestionNumber;
     private Button mNextQuestionButton;
     private Button mPreviousQuestionButton;
@@ -106,7 +105,6 @@ public class ActivityQuiz extends AppCompatActivity {
 
         sQuizScorer = QuizScorer.getInstance(this, mQuizSize, QUIZ_NUMBER);
         sIndividualQuestions = QuestionsHandling.getInstance(this.getApplicationContext(), QUIZ_NUMBER).getRandomQuestionSet(mQuizSize, QUIZ_NUMBER);
-        mCurrentDisplayQuestion = QuestionsHandling.makeDisplayQuestionObject(sIndividualQuestions.get(mQuestionNumber));
 
 
 //        mCardView = (CardView) findViewById(R.id.card_view);
@@ -207,19 +205,14 @@ public class ActivityQuiz extends AppCompatActivity {
 
     //updates the mCurrentDisplayQuestion object and text of the respective textviews
     private void setAndUpdateChoiceTextViews(int questionNumber){
-        mCurrentDisplayQuestion = QuestionsHandling.makeDisplayQuestionObject(sIndividualQuestions.get(questionNumber));
-//        mQuestionView.setText(mCurrentDisplayQuestion.get(QuestionsHandling.INDEX_QUESTION));
-//        mChoice1TextView.setText(mCurrentDisplayQuestion.get(QuestionsHandling.INDEX_CHOICE_1));
-//        mChoice2TextView.setText(mCurrentDisplayQuestion.get(QuestionsHandling.INDEX_CHOICE_2));
-//        mChoice3TextView.setText(mCurrentDisplayQuestion.get(QuestionsHandling.INDEX_CHOICE_3));
-//        mChoice4TextView.setText(mCurrentDisplayQuestion.get(QuestionsHandling.INDEX_CHOICE_4));
         if (currentVersionCode>=13){
             updateFragmentAnimated();
         } else {
             updateFragmentTraditional();
         }
         mNumberTextView.setText(Integer.toString(mQuestionNumber+1));
-        mCategoryTextView.setText(mCurrentDisplayQuestion.get(QuestionsHandling.INDEX_CATEGORY));
+        IndividualQuestion individualQuestion = sIndividualQuestions.get(questionNumber);
+        mCategoryTextView.setText(IndividualQuestion.categoryList.get(individualQuestion.category));
 
         if (mCountDownTimer==null){
             mCountDownTimer = new CountDownTimer((mCurrentSeconds+2)*1000,1000) {
@@ -272,13 +265,13 @@ public class ActivityQuiz extends AppCompatActivity {
     }
 
     private void updateFragmentTraditional(){
-        android.support.v4.app.Fragment fragmentQuestion = FragmentQuestion.getInstance(mCurrentDisplayQuestion);
+        android.support.v4.app.Fragment fragmentQuestion = FragmentQuestion.getInstance(sIndividualQuestions.get(mQuestionNumber));
         getSupportFragmentManager().beginTransaction().replace(R.id.card_framelayout, fragmentQuestion).commit();
     }
 
     @TargetApi(13)
     private void updateFragmentAnimated(){
-        android.app.Fragment fragmentQuestion = FragmentQuestionHoneycomb.getInstance(mCurrentDisplayQuestion);
+        android.app.Fragment fragmentQuestion = FragmentQuestionHoneycomb.getInstance(sIndividualQuestions.get(mQuestionNumber));
         android.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         if (mQuestionNumber>0) {
             fragmentTransaction

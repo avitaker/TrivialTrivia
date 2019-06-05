@@ -10,17 +10,14 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.avinashdavid.trivialtrivia.R;
-import com.avinashdavid.trivialtrivia.questions.QuestionsHandling;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.avinashdavid.trivialtrivia.questions.IndividualQuestion;
 
 /**
  * Created by avinashdavid on 11/27/16.
  */
 
 public class FragmentQuestion extends Fragment {
-    private List<String> mCurrentDisplayQuestion;
+    private IndividualQuestion question;
 
     private TextView mQuestionView;
     private Button mChoice1TextView;
@@ -28,9 +25,9 @@ public class FragmentQuestion extends Fragment {
     private Button mChoice3TextView;
     private Button mChoice4TextView;
 
-    public static Fragment getInstance(List<String> currentQuestion){
+    public static Fragment getInstance(IndividualQuestion question){
         FragmentQuestion fragmentQuestion = new FragmentQuestion();
-        fragmentQuestion.mCurrentDisplayQuestion = currentQuestion;
+        fragmentQuestion.question = question;
         return fragmentQuestion;
     }
 
@@ -52,11 +49,11 @@ public class FragmentQuestion extends Fragment {
     }
 
     private void setAndUpdateTextViews(){
-        mQuestionView.setText(mCurrentDisplayQuestion.get(QuestionsHandling.INDEX_QUESTION));
-        mChoice1TextView.setText(mCurrentDisplayQuestion.get(QuestionsHandling.INDEX_CHOICE_1));
-        mChoice2TextView.setText(mCurrentDisplayQuestion.get(QuestionsHandling.INDEX_CHOICE_2));
-        mChoice3TextView.setText(mCurrentDisplayQuestion.get(QuestionsHandling.INDEX_CHOICE_3));
-        mChoice4TextView.setText(mCurrentDisplayQuestion.get(QuestionsHandling.INDEX_CHOICE_4));
+        mQuestionView.setText(question.question);
+        mChoice1TextView.setText(question.choicesList[0]);
+        mChoice2TextView.setText(question.choicesList[1]);
+        mChoice3TextView.setText(question.choicesList[2]);
+        mChoice4TextView.setText(question.choicesList[3]);
     }
 
 //    private void submitAnswer(int choiceIndex){
