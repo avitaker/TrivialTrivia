@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 /**
  * Created by avinashdavid on 10/31/16.
@@ -16,7 +15,6 @@ public class IndividualQuestion implements Parcelable {
     public String question;
     public String[] choicesList;
     public int correctAnswer;
-    public int questionNumber;
 
     public static final int CATEGORY_GENERAL = 0;
     public static final int CATEGORY_SCIENCE = 1;
@@ -57,8 +55,7 @@ public class IndividualQuestion implements Parcelable {
 //        this.correctAnswer = correctAnswer;
 //    }
 
-    public IndividualQuestion(int questionNumber, String category, String question, String[] answersList, int correctAnswer) {
-        this.questionNumber = questionNumber;
+    public IndividualQuestion(String category, String question, String[] answersList, int correctAnswer) {
         this.category = categoryList.indexOf(category);
         this.question = question;
         this.choicesList = answersList;
@@ -66,7 +63,6 @@ public class IndividualQuestion implements Parcelable {
     }
 
     public IndividualQuestion(Parcel parcel){
-        this.questionNumber = parcel.readInt();
         this.category = parcel.readInt();
         this.question = parcel.readString();
         String[] choicesList = new String[4];
@@ -77,7 +73,6 @@ public class IndividualQuestion implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(questionNumber);
         parcel.writeInt(category);
         parcel.writeString(question);
         parcel.writeStringArray(choicesList);

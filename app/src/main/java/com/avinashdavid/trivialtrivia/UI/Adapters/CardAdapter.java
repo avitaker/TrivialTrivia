@@ -15,6 +15,7 @@ import com.avinashdavid.trivialtrivia.scoring.QuestionScorer;
 import com.avinashdavid.trivialtrivia.scoring.QuizScorer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by avinashdavid on 11/29/16.
@@ -24,7 +25,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     private static final String LOG_TAG = "CardAdapterClass";
     private Context mContext;
     private ArrayList<QuestionScorer> mData;
-    private ArrayList<IndividualQuestion> individualQuestions;
 
     private static final int VIEW_TYPE_FIRST = 0;
     private static final int VIEW_TYPE_ALL_OTHERS = 1;
@@ -69,7 +69,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 //        }
         mData = new ArrayList<>(questionScorers.size());
         mData.addAll(questionScorers);
-        individualQuestions = QuestionsHandling.getInstance(mContext, QuizScorer.sQuizNumber).getFullQuestionSet();
     }
 
     private Context getContext() {
@@ -102,7 +101,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         }
         else {
             QuestionScorer currentScorer = mData.get(position - 1);
-            IndividualQuestion individualQuestion = individualQuestions.get(currentScorer.getQuestionNumber());
+            IndividualQuestion individualQuestion = currentScorer.getQuestion();
             holder.questionTextview.setText(individualQuestion.question);
             holder.correctanswerTextview.setText(individualQuestion.choicesList[individualQuestion.correctAnswer]);
             if (currentScorer.getChosenAnswer() != -1) {

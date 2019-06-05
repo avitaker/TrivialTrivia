@@ -2,7 +2,6 @@ package com.avinashdavid.trivialtrivia.UI;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -12,8 +11,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.transition.TransitionInflater;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -30,6 +27,7 @@ import com.avinashdavid.trivialtrivia.scoring.QuizScorer;
 import com.avinashdavid.trivialtrivia.services.InsertRecordsService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ActivityQuiz extends AppCompatActivity {
     private int QUIZ_NUMBER;
@@ -42,8 +40,7 @@ public class ActivityQuiz extends AppCompatActivity {
     private CardView mCardView;
     private TextView mNumberTextView;
     private TextView mCategoryTextView;
-    private static ArrayList<IndividualQuestion> sIndividualQuestions;
-    private ArrayList<String> mCurrentDisplayQuestion;
+    private static List<IndividualQuestion> sIndividualQuestions;
     private int mQuestionNumber;
     private Button mNextQuestionButton;
     private Button mPreviousQuestionButton;
@@ -105,7 +102,6 @@ public class ActivityQuiz extends AppCompatActivity {
 
         sQuizScorer = QuizScorer.getInstance(this, mQuizSize, QUIZ_NUMBER);
         sIndividualQuestions = QuestionsHandling.getInstance(this.getApplicationContext(), QUIZ_NUMBER).getRandomQuestionSet(mQuizSize, QUIZ_NUMBER);
-        mCurrentDisplayQuestion = QuestionsHandling.makeDisplayQuestionObject(sIndividualQuestions.get(mQuestionNumber));
 
 
 //        mCardView = (CardView) findViewById(R.id.card_view);
@@ -141,7 +137,7 @@ public class ActivityQuiz extends AppCompatActivity {
                 mSecondsTextview.setTextColor(getResources().getColor(R.color.darker_gray));
                 mProgressBar.setProgress(0);
                 IndividualQuestion currentQuestion = sIndividualQuestions.get(mQuestionNumber);
-                sQuizScorer.addQuestionScorer(currentQuestion.questionNumber, currentQuestion.category, currentQuestion.correctAnswer, QuestionScorer.NO_ANSWER);
+                sQuizScorer.addQuestionScorer(currentQuestion, mQuestionNumber, QuestionScorer.NO_ANSWER);
                 goToNextQuestion();
                 mTicknumber=0;
             }
@@ -206,19 +202,14 @@ public class ActivityQuiz extends AppCompatActivity {
 
     //updates the mCurrentDisplayQuestion object and text of the respective textviews
     private void setAndUpdateChoiceTextViews(int questionNumber){
-        mCurrentDisplayQuestion = QuestionsHandling.makeDisplayQuestionObject(sIndividualQuestions.get(questionNumber));
-//        mQuestionView.setText(mCurrentDisplayQuestion.get(QuestionsHandling.INDEX_QUESTION));
-//        mChoice1TextView.setText(mCurrentDisplayQuestion.get(QuestionsHandling.INDEX_CHOICE_1));
-//        mChoice2TextView.setText(mCurrentDisplayQuestion.get(QuestionsHandling.INDEX_CHOICE_2));
-//        mChoice3TextView.setText(mCurrentDisplayQuestion.get(QuestionsHandling.INDEX_CHOICE_3));
-//        mChoice4TextView.setText(mCurrentDisplayQuestion.get(QuestionsHandling.INDEX_CHOICE_4));
         if (currentVersionCode>=13){
             updateFragmentAnimated();
         } else {
             updateFragmentTraditional();
         }
         mNumberTextView.setText(Integer.toString(mQuestionNumber+1));
-        mCategoryTextView.setText(mCurrentDisplayQuestion.get(QuestionsHandling.INDEX_CATEGORY));
+        IndividualQuestion individualQuestion = sIndividualQuestions.get(questionNumber);
+        mCategoryTextView.setText(IndividualQuestion.categoryList.get(individualQuestion.category));
 
         if (mCountDownTimer==null){
             mCountDownTimer = new CountDownTimer((mCurrentSeconds+2)*1000,1000) {
@@ -233,7 +224,7 @@ public class ActivityQuiz extends AppCompatActivity {
                 public void onFinish() {
                     mProgressBar.setProgress(0);
                     IndividualQuestion currentQuestion = sIndividualQuestions.get(mQuestionNumber);
-                    sQuizScorer.addQuestionScorer(currentQuestion.questionNumber, currentQuestion.category, currentQuestion.correctAnswer, QuestionScorer.NO_ANSWER);
+                    sQuizScorer.addQuestionScorer(currentQuestion, mQuestionNumber, QuestionScorer.NO_ANSWER);
                     goToNextQuestion();
 //                    if (mQuestionNumber < mQuizSize) {
 //                        this.start();
@@ -271,13 +262,13 @@ public class ActivityQuiz extends AppCompatActivity {
     }
 
     private void updateFragmentTraditional(){
-        android.support.v4.app.Fragment fragmentQuestion = FragmentQuestion.getInstance(mCurrentDisplayQuestion);
+        android.support.v4.app.Fragment fragmentQuestion = FragmentQuestion.getInstance(sIndividualQuestions.get(mQuestionNumber));
         getSupportFragmentManager().beginTransaction().replace(R.id.card_framelayout, fragmentQuestion).commit();
     }
 
     @TargetApi(13)
     private void updateFragmentAnimated(){
-        android.app.Fragment fragmentQuestion = FragmentQuestionHoneycomb.getInstance(mCurrentDisplayQuestion);
+        android.app.Fragment fragmentQuestion = FragmentQuestionHoneycomb.getInstance(sIndividualQuestions.get(mQuestionNumber));
         android.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         if (mQuestionNumber>0) {
             fragmentTransaction
@@ -325,7 +316,7 @@ public class ActivityQuiz extends AppCompatActivity {
         IndividualQuestion currentQuestion = sIndividualQuestions.get(mQuestionNumber);
         int timeTaken = maxTime - mCurrentSeconds;
         try {
-            sQuizScorer.addQuestionScorer(currentQuestion.questionNumber, currentQuestion.category, timeTaken, currentQuestion.correctAnswer, chosenAnswer);
+            sQuizScorer.addQuestionScorer(currentQuestion, timeTaken, chosenAnswer);
 //            Log.d("quizTracker", Integer.toString(mQuestionNumber) + ": chosen answer is " + Integer.toString(chosenAnswer) + " correct answer is " +Integer.toString(currentQuestion.correctAnswer));
         } finally {
             goToNextQuestion();

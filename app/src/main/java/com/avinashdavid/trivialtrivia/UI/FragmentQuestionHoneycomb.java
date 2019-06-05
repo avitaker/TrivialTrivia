@@ -9,9 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.avinashdavid.trivialtrivia.R;
-import com.avinashdavid.trivialtrivia.questions.QuestionsHandling;
-
-import java.util.ArrayList;
+import com.avinashdavid.trivialtrivia.questions.IndividualQuestion;
 
 /**
  * Created by avinashdavid on 11/27/16.
@@ -19,7 +17,7 @@ import java.util.ArrayList;
 
 @TargetApi(13)
 public class FragmentQuestionHoneycomb extends android.app.Fragment {
-    private ArrayList<String> mCurrentDisplayQuestion;
+    private IndividualQuestion question;
 
     private TextView mQuestionView;
     private TextView mChoice1TextView;
@@ -27,9 +25,9 @@ public class FragmentQuestionHoneycomb extends android.app.Fragment {
     private TextView mChoice3TextView;
     private TextView mChoice4TextView;
 
-    public static android.app.Fragment getInstance(ArrayList<String> currentQuestion){
+    public static android.app.Fragment getInstance(IndividualQuestion question){
         FragmentQuestionHoneycomb fragmentQuestion = new FragmentQuestionHoneycomb();
-        fragmentQuestion.mCurrentDisplayQuestion = currentQuestion;
+        fragmentQuestion.question = question;
         return fragmentQuestion;
     }
 
@@ -49,10 +47,10 @@ public class FragmentQuestionHoneycomb extends android.app.Fragment {
     }
 
     private void setAndUpdateTextViews(){
-        mQuestionView.setText(mCurrentDisplayQuestion.get(QuestionsHandling.INDEX_QUESTION));
-        mChoice1TextView.setText(mCurrentDisplayQuestion.get(QuestionsHandling.INDEX_CHOICE_1));
-        mChoice2TextView.setText(mCurrentDisplayQuestion.get(QuestionsHandling.INDEX_CHOICE_2));
-        mChoice3TextView.setText(mCurrentDisplayQuestion.get(QuestionsHandling.INDEX_CHOICE_3));
-        mChoice4TextView.setText(mCurrentDisplayQuestion.get(QuestionsHandling.INDEX_CHOICE_4));
+        mQuestionView.setText(question.question);
+        mChoice1TextView.setText(question.choicesList[0]);
+        mChoice2TextView.setText(question.choicesList[1]);
+        mChoice3TextView.setText(question.choicesList[2]);
+        mChoice4TextView.setText(question.choicesList[3]);
     }
 }

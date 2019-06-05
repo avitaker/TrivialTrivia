@@ -3,43 +3,38 @@ package com.avinashdavid.trivialtrivia.scoring;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.avinashdavid.trivialtrivia.questions.IndividualQuestion;
+
 /**
  * Created by avinashdavid on 11/2/16.
  */
 
 public class QuestionScorer implements Parcelable {
-    private int mQuestionNumber;
-    private int mCategory;
+
+    private IndividualQuestion question;
     private int timeTaken;
-    private int mCorrectAnswer;
     private int mChosenAnswer;
     private boolean mCorrect;
 
     public static final int NO_ANSWER = -1;
 
-    public QuestionScorer(int questionNumber, int category, int correctAnswer, int chosenAnswer){
-        this.mQuestionNumber = questionNumber;
-        this.mCategory = category;
-        this.mCorrectAnswer = correctAnswer;
+    public QuestionScorer(IndividualQuestion question, int chosenAnswer){
+        this.question = question;
         this.mChosenAnswer = chosenAnswer;
-        this.mCorrect = (correctAnswer==chosenAnswer);
+        this.mCorrect = (question.correctAnswer==chosenAnswer);
         this.timeTaken = 10;
     }
 
-    public QuestionScorer(int questionNumber, int category, int timeTaken, int correctAnswer, int chosenAnswer){
-        this.mQuestionNumber = questionNumber;
-        this.mCategory = category;
-        this.mCorrectAnswer = correctAnswer;
+    public QuestionScorer(IndividualQuestion question, int timeTaken, int chosenAnswer){
+        this.question = question;
         this.mChosenAnswer = chosenAnswer;
         this.timeTaken = timeTaken;
-        this.mCorrect = (correctAnswer==chosenAnswer);
+        this.mCorrect = (this.question.correctAnswer==chosenAnswer);
     }
 
     public QuestionScorer(Parcel in){
-        this.mQuestionNumber = in.readInt();
-        this.mCategory = in.readInt();
+        this.question = in.readParcelable(IndividualQuestion.class.getClassLoader());
         this.timeTaken = in.readInt();
-        this.mCorrectAnswer = in.readInt();
         this.mChosenAnswer = in.readInt();
         boolean[] correct = new boolean[1];
         in.readBooleanArray(correct);
@@ -48,10 +43,8 @@ public class QuestionScorer implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(mQuestionNumber);
-        parcel.writeInt(mCategory);
+        parcel.writeParcelable(question, 1);
         parcel.writeInt(timeTaken);
-        parcel.writeInt(mCorrectAnswer);
         parcel.writeInt(mChosenAnswer);
         boolean[] correct = new boolean[1];
         correct[0] = mCorrect;
@@ -79,16 +72,8 @@ public class QuestionScorer implements Parcelable {
         return mChosenAnswer;
     }
 
-    public int getQuestionNumber() {
-        return mQuestionNumber;
-    }
-
     public boolean getQuestionEvaluation(){
         return mCorrect;
-    }
-
-    public int getCategory(){
-        return mCategory;
     }
 
     public int getTimeTaken() {
@@ -97,5 +82,9 @@ public class QuestionScorer implements Parcelable {
 
     public void setTimeTaken(int timeTaken) {
         this.timeTaken = timeTaken;
+    }
+
+    public IndividualQuestion getQuestion() {
+        return question;
     }
 }

@@ -2,21 +2,19 @@ package com.avinashdavid.trivialtrivia.ScoringTesting;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 import android.util.Log;
 
-import com.avinashdavid.trivialtrivia.Utility;
 import com.avinashdavid.trivialtrivia.data.QuizDBContract;
 import com.avinashdavid.trivialtrivia.data.QuizDBHelper;
 import com.avinashdavid.trivialtrivia.questions.IndividualQuestion;
-import com.avinashdavid.trivialtrivia.questions.QuestionsHandling;
 import com.avinashdavid.trivialtrivia.scoring.QuestionScorer;
 import com.avinashdavid.trivialtrivia.scoring.QuizScorer;
+import com.avinashdavid.trivialtrivia.web.services.LocalQuestionService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by avinashdavid on 11/2/16.
@@ -34,20 +32,20 @@ public class TestQuizScorer extends AndroidTestCase {
         mContext = context;
         QuizDBHelper.getInstance(mContext).getWritableDatabase().delete(QuizDBContract.QuizEntry.TABLE_NAME,null,null);
         QuizDBHelper.getInstance(mContext).getWritableDatabase().delete(QuizDBContract.CategoryEntry.TABLE_NAME,null,null);
-        QuestionsHandling questionsHandling = QuestionsHandling.getInstance(mContext, 0);
-        ArrayList<IndividualQuestion> allQuestions = questionsHandling.getFullQuestionSet();
+        LocalQuestionService questionsService = new LocalQuestionService(getContext());
+        List<IndividualQuestion> allQuestions = questionsService.getFullQuestionSet();
         IndividualQuestion firstQuestion = allQuestions.get(0);
         IndividualQuestion secondQuestion = allQuestions.get(1);
         IndividualQuestion thirdQuestion = allQuestions.get(2);
         IndividualQuestion fourthQuestion = allQuestions.get(3);
         IndividualQuestion fifthQuestion = allQuestions.get(4);
-        QuestionScorer firstQuestionScorer = new QuestionScorer(firstQuestion.questionNumber, firstQuestion.category, firstQuestion.correctAnswer, 0);
+        QuestionScorer firstQuestionScorer = new QuestionScorer(firstQuestion, 0, 0);
         firstQuestionScorer.setTimeTaken(4);
-        QuestionScorer secondQuestionScorer = new QuestionScorer(secondQuestion.questionNumber, secondQuestion.category, 5, secondQuestion.correctAnswer, 3);
-        QuestionScorer thirdQuestionScorer = new QuestionScorer(thirdQuestion.questionNumber, thirdQuestion.category, 7, thirdQuestion.correctAnswer, 2);
-        QuestionScorer fourthQuestionScorer = new QuestionScorer(fourthQuestion.questionNumber, fourthQuestion.category, fourthQuestion.correctAnswer, 0);
+        QuestionScorer secondQuestionScorer = new QuestionScorer(secondQuestion,  5, 3);
+        QuestionScorer thirdQuestionScorer = new QuestionScorer(thirdQuestion, 7, 2);
+        QuestionScorer fourthQuestionScorer = new QuestionScorer(fourthQuestion, 3, 0);
         fourthQuestionScorer.setTimeTaken(3);
-        QuestionScorer fifthQuestionScorer = new QuestionScorer(fifthQuestion.questionNumber, fifthQuestion.category, 10, fifthQuestion.correctAnswer, 3);
+        QuestionScorer fifthQuestionScorer = new QuestionScorer(fifthQuestion, 10, 3);
         mQuizScorer = QuizScorer.getInstance(mContext,5,0);
         mQuizScorer.addQuestionScorer(firstQuestionScorer);
         mQuizScorer.addQuestionScorer(secondQuestionScorer);
