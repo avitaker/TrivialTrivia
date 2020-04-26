@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TrivialTrivia.iml" filepath="$PROJECT_DIR$/TrivialTrivia.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/TrivialTrivia-app.iml" filepath="$PROJECT_DIR$/app/TrivialTrivia-app.iml" group="TrivialTrivia/app" />
+      <module fileurl="file://$PROJECT_DIR$/TrivialTriviaMaster-TrivialTrivia.iml" filepath="$PROJECT_DIR$/TrivialTriviaMaster-TrivialTrivia.iml" group="TrivialTrivia" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
