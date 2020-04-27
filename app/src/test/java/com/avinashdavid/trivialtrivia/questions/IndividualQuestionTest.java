@@ -11,19 +11,19 @@ import static org.junit.Assert.*;
 public class IndividualQuestionTest {
 
     private IndividualQuestion basicIQ;
-    private IndividualQuestion categoryOutOfBoundsIQ;
+    private IndividualQuestion secondIQ;
     private String[] basicAnswers = { "Small", "Medium", "Large", "Really Large"};
 
     @Before
     public void setUp() {
         basicIQ = new IndividualQuestion(2, "science", "How big is a photon?", basicAnswers, 0);
-        categoryOutOfBoundsIQ = new IndividualQuestion( 30, "not a category","How big is a photon?", basicAnswers, 0);
+        secondIQ = new IndividualQuestion(10, "general", "What is the size of a plane?", basicAnswers, 3);
     }
 
     @Test
     public void getCategoryList() {
-        ArrayList<String> expectedList = new ArrayList<String>(Arrays.asList("general","science","world","history","entertainment","sports"));
-        ArrayList<String> actualCategories = basicIQ.getCategoryList();
+        ArrayList<String> expectedList = new ArrayList<>(Arrays.asList("general", "science", "world", "history", "entertainment", "sports"));
+        ArrayList<String> actualCategories = IndividualQuestion.getCategoryList();
 
         for ( int i = 0; i < expectedList.size(); i++ ){
             assertEquals( actualCategories.get(i), expectedList.get(i));
@@ -45,7 +45,15 @@ public class IndividualQuestionTest {
     }
 
     @Test
-    public void describeContents() {
-        fail("Not implemented");
+    public void newArrayOfTheParcelableClass() {
+        IndividualQuestion[] origIQ = { basicIQ, secondIQ };
+        IndividualQuestion[] newArrayFromIQ = (IndividualQuestion[]) IndividualQuestion.CREATOR.newArray(2);
+        System.arraycopy(basicIQ, 0, secondIQ,0,2);
+
+        for ( int i = 0; i < 2; i++ ) {
+            assertEquals(origIQ[i].toString(), newArrayFromIQ[i].toString());
+        }
     }
+
+
 }
