@@ -48,14 +48,15 @@ public class QuestionScorer implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(mQuestionNumber);
-        parcel.writeInt(mCategory);
-        parcel.writeInt(timeTaken);
-        parcel.writeInt(mCorrectAnswer);
-        parcel.writeInt(mChosenAnswer);
-        boolean[] correct = new boolean[1];
-        correct[0] = mCorrect;
-        parcel.writeBooleanArray(correct);
+        parcel.writeString("Hello");
+//       parcel.writeInt(mQuestionNumber);
+//        parcel.writeInt(mCategory);
+//        parcel.writeInt(timeTaken);
+//        parcel.writeInt(mCorrectAnswer);
+//        parcel.writeInt(mChosenAnswer);
+//        boolean[] correct = new boolean[1];
+//        correct[0] = mCorrect;
+//        parcel.writeBooleanArray(correct);
     }
 
     @Override
