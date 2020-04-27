@@ -3,6 +3,8 @@ package com.avinashdavid.trivialtrivia;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+
+import org.mockito.ArgumentMatchers;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import java.util.LinkedList;
@@ -10,6 +12,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyByte;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.ArgumentMatchers.booleanThat;
@@ -48,6 +51,7 @@ public class MockParcel {
         doAnswer(answer).when(mParcel).writeString(anyString());
         doAnswer(answer).when(mParcel).writeParcelable( any(Parcelable.class), anyInt() );
         doAnswer(answer).when(mParcel).writeFloat(anyFloat());
+        doAnswer(answer).when(mParcel).writeList( anyList() );
     }
 
     private void setupReads() {
@@ -62,6 +66,7 @@ public class MockParcel {
         when(mParcel.readString()).thenAnswer(answer);
         when(mParcel.readParcelable(any(ClassLoader.class))).then(answer);
         when(mParcel.readFloat()).thenAnswer(answer);
+        when( mParcel.readArrayList(any(ClassLoader.class))).then(answer);
     }
 
     private void setupOthers() {

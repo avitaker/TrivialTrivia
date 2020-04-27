@@ -1,5 +1,7 @@
 package com.avinashdavid.trivialtrivia.questions;
 
+import android.os.Parcel;
+import com.avinashdavid.trivialtrivia.MockParcel;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.ArrayList;
@@ -29,8 +31,17 @@ public class IndividualQuestionTest {
     }
 
     @Test
-    public void writeToParcel() {
-        fail("Not implemented");
+    public void writeToParcelThenCreateFromParcel() {
+        //Create a mock parcel and write the contents of qsWithTimeCorrect to Parcel
+        Parcel parcel = MockParcel.obtain();
+        basicIQ.writeToParcel( parcel, basicIQ.describeContents() );
+        parcel.setDataPosition(0);
+
+        //Create a new IndividualQuestion from the parcel
+        IndividualQuestion createdFromParcel = (IndividualQuestion) IndividualQuestion.CREATOR.createFromParcel(parcel);
+
+        //Compare what wat created from the Parcel
+        assertEquals( "Question = [ questionNumber: 2, question: How big is a photon?, category: 1, correct: 0 ]", createdFromParcel.toString());
     }
 
     @Test
