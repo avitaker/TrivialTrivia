@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 public class IndividualQuestionTest {
@@ -31,6 +32,17 @@ public class IndividualQuestionTest {
     }
 
     @Test
+    public void categoryDoesNotExist() {
+        try {
+            IndividualQuestion categoryOutOfBoundsIQ = new IndividualQuestion(30, "not a category", "How big is a photon?", basicAnswers, 0);
+            fail("Expected exception has not been thrown");
+        }
+        catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), is("ERROR: That is not a recognized category."));
+        }
+    }
+
+    @Test
     public void writeToParcelThenCreateFromParcel() {
         //Create a mock parcel and write the contents of qsWithTimeCorrect to Parcel
         Parcel parcel = MockParcel.obtain();
@@ -48,12 +60,11 @@ public class IndividualQuestionTest {
     public void newArrayOfTheParcelableClass() {
         IndividualQuestion[] origIQ = { basicIQ, secondIQ };
         IndividualQuestion[] newArrayFromIQ = (IndividualQuestion[]) IndividualQuestion.CREATOR.newArray(2);
-        System.arraycopy(basicIQ, 0, secondIQ,0,2);
+        System.arraycopy(origIQ, 0, newArrayFromIQ,0,2);
 
         for ( int i = 0; i < 2; i++ ) {
             assertEquals(origIQ[i].toString(), newArrayFromIQ[i].toString());
         }
     }
-
 
 }

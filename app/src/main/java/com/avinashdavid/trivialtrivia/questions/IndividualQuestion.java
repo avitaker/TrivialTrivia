@@ -33,10 +33,19 @@ public class IndividualQuestion implements Parcelable {
 
     public IndividualQuestion(int questionNumber, String category, String question, String[] answersList, int correctAnswer) {
         this.questionNumber = questionNumber;
-        this.category = categoryList.indexOf(category);
+        setCategory( category );
         this.question = question;
         this.choicesList = answersList;
         this.correctAnswer = correctAnswer;
+    }
+
+    public void setCategory( String category ) {
+        if( categoryList.contains( category )){
+            this.category = categoryList.indexOf(category);
+        }
+        else{
+            throw new IllegalArgumentException( "ERROR: That is not a recognized category.");
+        }
     }
 
     public IndividualQuestion(Parcel parcel){
