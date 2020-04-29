@@ -3,7 +3,6 @@ package com.avinashdavid.trivialtrivia.data;
 import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
-
 import com.avinashdavid.trivialtrivia.questions.IndividualQuestion;
 
 /**
