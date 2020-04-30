@@ -38,6 +38,11 @@ public class AcknowledgmentStorageTest {
 
     @Test
     public void AcknowledgementStorage_getImagesAcknowledgmentObjectsTest(){
-        
+        AcknowledgmentStorage storage = new AcknowledgmentStorage();
+        ArrayList<AcknowledgmentObject> list = storage.getImagesAcknowledgementObjects();
+        AcknowledgmentObject item = new AcknowledgmentObject("Vlad Marin on Iconfinder", "https://www.iconfinder.com/quizanswers");
+
+        assertNotNull(list);
+        assertEquals(item.getName(), list.get(0).getName());
     }
 }
