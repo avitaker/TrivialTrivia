@@ -9,12 +9,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+import org.mockito.MockitoAnnotations;
 
 
+@RunWith(RobolectricTestRunner.class)
 public class AcknowledgmentObjectTest {
 
     @Before
     public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
     }
 
     @After
@@ -25,8 +28,7 @@ public class AcknowledgmentObjectTest {
     public void AcknowledgementObject_GetNameTest () {
         String name = "Bogus";
         String link = "http://www.bogus.com/";
-        Uri uri = null;
-        AcknowledgmentObject obj = new AcknowledgmentObject(name, uri);
+        AcknowledgmentObject obj = new AcknowledgmentObject(name, link);
         String actual = obj.getName();
         assertNotNull(obj);
         assertEquals("Bogus", actual);
@@ -34,6 +36,12 @@ public class AcknowledgmentObjectTest {
 
     @Test
     public void AcknowledgementObject_GetLinkTest () {
-
+        String name = "Bogus";
+        String link = "http://www.bogus.com/";
+        Uri uri = Uri.parse(link);
+        AcknowledgmentObject obj = new AcknowledgmentObject(name, uri);
+        Uri actual = obj.getLink();
+        assertNotNull(obj);
+        assertEquals(uri, actual);
     }
 }
