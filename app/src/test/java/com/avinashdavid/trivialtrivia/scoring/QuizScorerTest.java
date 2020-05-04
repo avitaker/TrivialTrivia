@@ -2,7 +2,7 @@ package com.avinashdavid.trivialtrivia.scoring;
 
 import android.content.ContentValues;
 import android.content.Context;
-
+import com.avinashdavid.trivialtrivia.data.QuizDBContract;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -13,7 +13,6 @@ import org.mockito.junit.MockitoRule;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.robolectric.RobolectricTestRunner;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
@@ -81,86 +80,15 @@ public class QuizScorerTest {
         }
     }
 
+    @Test
+    public void quizScoreShouldBe0WhenAllWrongAnswers() throws Exception {
+        //Set up: One question quiz with wrong answer selected
+        basic = QuizScorer.getInstance(mockContext, 1, 3);
+        basic.addQuestionScorer(1, 0, 1, 2);
+        ContentValues cv = QuizScorer.createQuizRecordContentValues( mockContext, basic );
 
+        assertEquals("Quiz size:", 1, (int)cv.getAsInteger(QuizDBContract.QuizEntry.COLUMN_NAME_QUIZ_SIZE));
+        assertEquals("Quiz score:", 0, (int)cv.getAsInteger(QuizDBContract.QuizEntry.COLUMN_NAME_SCORE));
+    }
 
-    //
-//    @Test
-//    public void setQuestionScorers() {
-//    }
-//
-//    @Test
-//    public void createQuizRecordContentValues() {
-//    }
-//
-//    @Test
-//    public void createAndInsertQuizRecord() {
-//    }
-//
-//    @Test
-//    public void createAndUpdateCategoryRecords() {
-//    }
-//
-//    @Test
-//    public void addQuestionScorer() {
-//    }
-//
-//    @Test
-//    public void testAddQuestionScorer() {
-//    }
-//
-//    @Test
-//    public void testAddQuestionScorer1() {
-//    }
-//
-//    @Test
-//    public void addQuestionScorerList() {
-//    }
-//
-//    @Test
-//    public void scoreQuiz() {
-//    }
-//
-//    @Test
-//    public void getCategoryScoreReport() {
-//    }
-//
-//    @Test
-//    public void getQuizCategoryScoreReportScoreStrings() {
-//    }
-//
-//    @Test
-//    public void getOverallTimeReport() {
-//    }
-//
-//    @Test
-//    public void getTimeAverageCorrect() {
-//    }
-//
-//    @Test
-//    public void getTimeAverageWrong() {
-//    }
-//
-//    @Test
-//    public void getTimeAverageAllQuestions() {
-//    }
-//
-//    @Test
-//    public void getCategoryTotalTimeReport() {
-//    }
-//
-//    @Test
-//    public void getCategoryAverageTimeReport() {
-//    }
-//
-//    @Test
-//    public void getTimeAverageCORRECTForCategory() {
-//    }
-//
-//    @Test
-//    public void getTimeAverageWRONGForCategory() {
-//    }
-//
-//    @Test
-//    public void getTimeAverageOVERALLForCategory() {
-//    }
 }
