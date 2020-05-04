@@ -1,7 +1,6 @@
 package com.avinashdavid.trivialtrivia.scoring;
 
 import android.content.Context;
-
 import com.avinashdavid.trivialtrivia.Utility;
 
 import org.junit.Before;
@@ -15,6 +14,8 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.robolectric.RobolectricTestRunner;
+
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 
@@ -43,9 +44,9 @@ public class QuizScorerTest {
         basic = QuizScorer.getInstance(mockContext, quizSize, quizNumber);
     }
 
-
     @Test
     public void setSize() {
+        //Should set the size of the quiz, which is the number of questions
         assertEquals(quizSize, basic.getSize() );
         basic.setSize(100);
 
@@ -54,6 +55,18 @@ public class QuizScorerTest {
         assertEquals(100, basic.getSize() );
     }
 
+    @Test
+    public void setSizeShouldNotBeNegative() {
+        //Should not set a negative number of questions for a quiz
+        try {
+            assertEquals(quizSize, basic.getSize());
+            basic.setSize(-1);
+            fail("Expected exception has not been thrown");
+        }
+        catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), is("ERROR: Can not have a negative number of questions."));
+        }
+    }
 
 
 
