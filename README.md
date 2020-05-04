@@ -7,18 +7,15 @@ Remake of "trivial trivia" with native Android code and a truer implementation o
    *  Install Android Studio 3.6 or later 
 
    *  Clone the repository. In terminal or command prompt: git clone https://github.com/Carrie0302/TrivialTrivia.git 
-
-    * In Android Studio, click ìOpen an existing Android Studio projectî 
-
-    * Navigate to the root of the cloned git repository 
-
-    * Wait for Gradle Sync to sync the project and download dependencies 
+   *  In Android Studio, click ‚ÄúOpen an existing Android Studio project‚Äù 
+   *  Navigate to the root of the cloned git repository 
+   *  Wait for Gradle Sync to sync the project and download dependencies 
 
 ## Running the Unit Tests 
 
   *  Navigate to the test class to be run (ex. OverallStatisticsCalculatorTest) 
 
-   * Click the green play button next to the test class or individual test method and select ìRun with Coverageî to get code coverage metrics 
+   * Click the green play button next to the test class or individual test method and select ‚ÄúRun with Coverage‚Äù to get code coverage metrics 
 
 ## Description
 This is a remake of my first published app, which was called "Trivial Trivia". On the Play Store, this version of the app can be found under the name "Trivial Trivia 2". 
