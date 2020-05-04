@@ -1,5 +1,6 @@
 package com.avinashdavid.trivialtrivia.scoring;
 
+import android.content.ContentValues;
 import android.content.Context;
 
 import org.junit.Before;
@@ -57,7 +58,7 @@ public class QuizScorerTest {
     @Test
     public void setSizeShouldNotBeNegative() {
         //Should not set a negative number of questions for a quiz
-        QuizScorer basic = QuizScorer.getInstance(mockContext, quizSize, 1);
+        basic = QuizScorer.getInstance(mockContext, quizSize, 1);
         try {
             basic.setSize(-1);
             fail("Expected exception has not been thrown");
@@ -67,13 +68,22 @@ public class QuizScorerTest {
         }
     }
 
+    @Test
+    public void canNotScoreQuizBeforeItIsComplete() throws Exception {
+        //Can not check the score of a quiz before quiz completion
+        basic = QuizScorer.getInstance(mockContext, quizSize, 2);
+        try {
+            ContentValues cv = QuizScorer.createQuizRecordContentValues( mockContext, basic );
+            fail("Expected exception has not been thrown. Can not check the score of a quiz before complete.");
+        }
+        catch (Exception e) {
+            assertThat(e.getMessage(), is("createQuizRecordContentValues() called before quiz completion"));
+        }
+    }
 
 
-//
-//    @Test
-//    public void getQuestionScorers() {
-//    }
-//
+
+    //
 //    @Test
 //    public void setQuestionScorers() {
 //    }
