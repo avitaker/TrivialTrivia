@@ -3,12 +3,8 @@ package com.avinashdavid.trivialtrivia.scoring;
 import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
-
 import com.avinashdavid.trivialtrivia.data.QuizDBContract;
-import com.avinashdavid.trivialtrivia.data.QuizDBHelper;
 import com.avinashdavid.trivialtrivia.questions.IndividualQuestion;
-import com.avinashdavid.trivialtrivia.questions.QuestionsHandling;
-import com.thoughtworks.xstream.mapper.Mapper;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -243,5 +239,32 @@ public class QuizScorerTest {
         assertEquals("Seconds solving 'history' questions: ",2, timeHistory);
         assertEquals("Seconds solving 'science' questions: ",0, timeScience);
     }
+
+    @Test
+    public void getAverageTimeForCorrectAnswers() {
+        //Setup:  Initially add 4 questions, 2 are correct
+        basic = QuizScorer.getInstance(mockContext, 4, 11);
+        basic.addQuestionScorer(1, 2, 20, 1, 1);
+        basic.addQuestionScorer(2, 2, 10, 3, 3);
+        basic.addQuestionScorer(3, 0, 3, 2, 0);
+        basic.addQuestionScorer(4, 3, 2, 1, 2);
+
+        double timeCorrect = basic.getTimeAverageCorrect();
+        assertEquals("Avg sec for correct answers:",15.0, timeCorrect, DELTA);
+    }
+
+    @Test
+    public void getAverageTimeForWrongAnswers() {
+        //Setup:  Initially add 4 questions, 2 are correct
+        basic = QuizScorer.getInstance(mockContext, 4, 12);
+        basic.addQuestionScorer(1, 2, 20, 1, 1);
+        basic.addQuestionScorer(2, 2, 10, 3, 3);
+        basic.addQuestionScorer(3, 0, 3, 2, 0);
+        basic.addQuestionScorer(4, 3, 2, 1, 2);
+
+        double timeWrong = basic.getTimeAverageWrong();
+        assertEquals("Avg sec for wrong answers:",2.5, timeWrong, DELTA);
+    }
+
 
 }

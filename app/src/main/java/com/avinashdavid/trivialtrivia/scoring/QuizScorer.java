@@ -257,7 +257,6 @@ public class QuizScorer {
         return mCategoryScoreReport;
     }
 
-
     //converts the output from the getCategoryScoreReport() into and arraylist of strings for presentation in the UI
     public ArrayList<String> getQuizCategoryScoreReportScoreStrings(ArrayList<int[]> scoreReportInt){
         int[] totalCategoryQuestions = scoreReportInt.get(SCORES_TOTAL_CATEGORY_QUESTIONS);
@@ -269,7 +268,6 @@ public class QuizScorer {
         }
         return returnList;
     }
-
 
     public ArrayList<int[]> getOverallTimeReport(){
         mOverallTimeReport = new ArrayList<>(2);
@@ -316,7 +314,6 @@ public class QuizScorer {
         return Utility.getAverageFromCOMPLEMENTARYIntListsWITHNegativeValueElimination(wrongAnswerTimes,correctAnswerTimes);
     }
 
-
     public ArrayList<int[]> getCategoryTotalTimeReport(){
         ArrayList<int[]> returnList = new ArrayList<>(2);
         int numberOfCategories = categoryList.size();
@@ -330,10 +327,8 @@ public class QuizScorer {
                     overallCategoryTimes[c] += thisQuestionScorer.getTimeTaken();
                     if (thisQuestionScorer.getQuestionEvaluation()){
                         correctCategoryTimes[c] += thisQuestionScorer.getTimeTaken();
-//                        Log.d(LOG_TAG + "correctTime " + Integer.toString(c), Double.toString(correctCategoryTimes[c]));
                     } else {
                         wrongCategoryTimes[c] += thisQuestionScorer.getTimeTaken();
-//                        Log.d(LOG_TAG + "wrongTime " + Integer.toString(c), Double.toString(wrongCategoryTimes[c]));
                     }
                 }
             }
@@ -343,67 +338,5 @@ public class QuizScorer {
         returnList.add(TIMES_OVERALL_BY_CATEGORY,overallCategoryTimes);
         mCategoryTotalTimeReport = returnList;
         return returnList;
-    }
-
-    public ArrayList<double[]> getCategoryAverageTimeReport(){
-        ArrayList<double[]> returnList = new ArrayList<>(2);
-        if (mCategoryTotalTimeReport==null){
-            mCategoryTotalTimeReport = getCategoryTotalTimeReport();
-        }
-        if (mCategoryScoreReport == null){
-            mCategoryScoreReport = getCategoryScoreReport();
-        }
-        int[] correctAnswerTimes = mCategoryTotalTimeReport.get(TIMES_CORRECT_BY_CATEGORY);
-        int[] wrongAnswerTimes = mCategoryTotalTimeReport.get(TIMES_WRONG_BY_CATEGORY);
-        int[] totalAnswerInstances = mCategoryScoreReport.get(SCORES_TOTAL_CATEGORY_QUESTIONS);
-        int[] correctAnswerInstances = mCategoryScoreReport.get(SCORES_CORRECT_CATEGORY_ANSWERS);
-
-        double[] correctAnswerAverages = Utility.returnArrayOfZeroDoubles(correctAnswerTimes.length);
-        double[] wrongAnswerAverages = Utility.returnArrayOfZeroDoubles(wrongAnswerTimes.length);
-        double[] overallAnswerAverages = Utility.returnArrayOfZeroDoubles(correctAnswerTimes.length);
-
-        for (int i = 0; i<correctAnswerTimes.length; i++){
-            if (correctAnswerInstances[i]>0){
-                correctAnswerAverages[i] = correctAnswerTimes[i]/correctAnswerInstances[i];
-            }
-            if (totalAnswerInstances[i]-correctAnswerInstances[i]>0){
-                wrongAnswerAverages[i] = wrongAnswerTimes[i]/(totalAnswerInstances[i]-correctAnswerInstances[i]);
-            }
-            if (totalAnswerInstances[i]>0){
-                overallAnswerAverages[i] = (correctAnswerTimes[i] + wrongAnswerTimes[i])/totalAnswerInstances[i];
-            }
-        }
-        returnList.add(TIMES_CORRECT_BY_CATEGORY,correctAnswerAverages);
-        returnList.add(TIMES_WRONG_BY_CATEGORY, wrongAnswerAverages);
-        returnList.add(TIMES_OVERALL_BY_CATEGORY, overallAnswerAverages);
-        mCategoryAverageTimeReport = returnList;
-        return mCategoryAverageTimeReport;
-    }
-
-
-    public double getTimeAverageWRONGForCategory(int category){
-        double returnDouble = 0.00;
-        if (mCategoryAverageTimeReport==null){
-            mCategoryAverageTimeReport = getCategoryAverageTimeReport();
-        }
-        try {
-            returnDouble = mCategoryAverageTimeReport.get(TIMES_WRONG_BY_CATEGORY)[category];
-        } catch (IndexOutOfBoundsException e){
-            Log.d(LOG_TAG,"Exception in getTimeAverageWRONGForCategory: " + e.getMessage());
-        }
-        return returnDouble;
-    }
-
-    public double getTimeAverageOVERALLForCategory(int category){
-        double returnDouble = 0.00;
-        if (mCategoryAverageTimeReport==null){
-            mCategoryAverageTimeReport = getCategoryAverageTimeReport();
-        }
-        try {
-            returnDouble = mCategoryAverageTimeReport.get(TIMES_OVERALL_BY_CATEGORY)[category];
-        } catch (IndexOutOfBoundsException e){
-            Log.d(LOG_TAG,"Exception in getTimeAverageOVERALLForCategory: " + e.getMessage());
-        }
-        return returnDouble;
     }
 }

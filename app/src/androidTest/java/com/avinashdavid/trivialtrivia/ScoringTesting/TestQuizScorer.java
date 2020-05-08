@@ -103,10 +103,6 @@ public class TestQuizScorer extends AndroidTestCase {
 //        assertEquals("Average time on all answers is ", 5.80, Utility.getAverageFromCOMPLEMENTARYIntListsWITHNegativeValueElimination(allAnswersTimes.get(QuizScorer.TIMES_WRONG_OVERALL),allAnswersTimes.get(QuizScorer.TIMES_CORRECT_OVERALL)));
         assertEquals("Average time on all answers is ", 5.80, mQuizScorer.getTimeAverageAllQuestions());
 
-        assertEquals("Average time on correctly answered 'general' questions is 7", 7.0, mQuizScorer.getCategoryAverageTimeReport().get(QuizScorer.TIMES_CORRECT_BY_CATEGORY)[IndividualQuestion.CATEGORY_GENERAL]);
-        assertEquals("Average time on wrongly answered 'science' questions is 5", 5.0, mQuizScorer.getTimeAverageWRONGForCategory(IndividualQuestion.CATEGORY_SCIENCE));
-        assertEquals("Average time on all answered 'science' questions is 5", 5.0, mQuizScorer.getTimeAverageOVERALLForCategory(IndividualQuestion.CATEGORY_SCIENCE));
-
     }
 
 //    public void testQuizInsert(){
