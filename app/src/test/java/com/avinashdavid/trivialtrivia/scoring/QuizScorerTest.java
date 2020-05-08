@@ -180,7 +180,7 @@ public class QuizScorerTest {
 
     @Test
     public void quizScoreShouldNotTakeNullQuestionList()  {
-        //Set up
+        //Set up: Get instance of static quiz scorer
         basic = QuizScorer.getInstance(mockContext, basicQuizSize, 7);
         ArrayList<QuestionScorer> testNull = null;
         try {
@@ -193,8 +193,8 @@ public class QuizScorerTest {
     }
 
     @Test
-    public void getCategoryScoreReport() throws Exception {
-        //Setup:  Initially add 2 questions and insert into quiz records
+    public void getCategoryScoreReport() {
+        //Setup:  Initially add 3 questions
         basic = QuizScorer.getInstance(mockContext, 3, 8);
         basic.addQuestionScorer(1, 2, 1, 1);
         basic.addQuestionScorer(2, 2, 3, 3);
@@ -209,37 +209,39 @@ public class QuizScorerTest {
         assertEquals("Zero questions from 'science' category",0, totalFromScience);
     }
 
-//
-//    @Test
-//    public void insertQuizRecordPerfect() throws Exception {
-//        //Setup:  Initially add 2 questions and insert into quiz records
-//        basic = QuizScorer.getInstance(mockContext, 4, 8);
-//        basic.addQuestionScorer(1, 2, 1, 1);
-//        basic.addQuestionScorer(1, 3, 3, 3);
-//
-//        //
-//        //assertEquals("Quiz size:", 4, (int)cv.getAsInteger(QuizDBContract.QuizEntry.COLUMN_NAME_QUIZ_SIZE));
-//        //assertEquals("Quiz score:", 2, (int)cv.getAsInteger(QuizDBContract.QuizEntry.COLUMN_NAME_SCORE));
-//
-//        basic.addQuestionScorer(1, 2, 1, 1);
-//        basic.addQuestionScorer(1, 3, 3, 3);
-//
-//        ContentValues cv = QuizScorer.createQuizRecordContentValues( mockContext, basic );
-//        ContentValues cvQuestionsNotAdded = QuizScorer.createAndInsertQuizRecord( mockContext, basic );
-//
-//        assertEquals( cv, cvQuestionsNotAdded );
-//        assertEquals("Quiz score:", 4, (int)cvQuestionsNotAdded.getAsInteger(QuizDBContract.QuizEntry.COLUMN_NAME_SCORE));
-//
-//
-//        //Uri uriActual = QuizScorer.createAndInsertQuizRecord(mockContext2, basic);
-//        // int categories_updated = QuizScorer.createAndUpdateCategoryRecords(mockContext2, basic);
-//
-////        String link = "http://www.bogus.com/";
-////        Uri uriExpected = Uri.parse(link);
-////
-////        assertEquals( uriExpected, uriActual );
-////        assertEquals(categories_updated,  IndividualQuestion.categoryList.size());
-//
-//    }
+
+    @Test
+    public void canNotGetCategoryScoreReportWhenNoQuestionsExist() {
+        //Setup: No questions scored or added to quiz
+        basic = QuizScorer.getInstance(mockContext2, 3, 9);
+        try {
+            ArrayList<int[]> result = basic.getCategoryScoreReport();
+            fail("Expected exception has not been thrown. Can not get score by categories with no questions exist.");
+        }
+        catch (NullPointerException e) {
+            assertThat(e.getMessage(), is("getCategoryScoreReport() called with null mQuestionScorers"));
+        }
+    }
+
+    @Test
+    public void getCategoryTotalTimeReport() {
+        //Setup:  Initially add 3 questions
+        basic = QuizScorer.getInstance(mockContext, 5, 10);
+        basic.addQuestionScorer(1, 2, 20, 1, 1);
+        basic.addQuestionScorer(2, 2, 11, 3, 3);
+        basic.addQuestionScorer(3, 0, 19, 2, 0);
+        basic.addQuestionScorer(4, 3, 1, 2, 2);
+        basic.addQuestionScorer(5, 3, 1, 2, 3);
+
+        int timeWorld = basic.getCategoryTotalTimeReport().get(QuizScorer.TIMES_OVERALL_BY_CATEGORY)[IndividualQuestion.CATEGORY_WORLD];
+        int timeGeneral = basic.getCategoryTotalTimeReport().get(QuizScorer.TIMES_OVERALL_BY_CATEGORY)[IndividualQuestion.CATEGORY_GENERAL];
+        int timeHistory = basic.getCategoryTotalTimeReport().get(QuizScorer.TIMES_OVERALL_BY_CATEGORY)[IndividualQuestion.CATEGORY_HISTORY];
+        int timeScience = basic.getCategoryTotalTimeReport().get(QuizScorer.TIMES_OVERALL_BY_CATEGORY)[IndividualQuestion.CATEGORY_SCIENCE];
+
+        assertEquals("Seconds solving 'world' questions: ", 31, timeWorld);
+        assertEquals("Seconds solving 'general' questions: ",19, timeGeneral);
+        assertEquals("Seconds solving 'history' questions: ",2, timeHistory);
+        assertEquals("Seconds solving 'science' questions: ",0, timeScience);
+    }
 
 }
