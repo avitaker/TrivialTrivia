@@ -115,7 +115,7 @@ public class QuizScorer {
     }
 
     //create an arraylist of contentvalues that correspond to the question categories, for updating category records
-    private static ArrayList<ContentValues> createAllCategoryRecordContentValues(Context context, QuizScorer thisScorer) throws Exception{
+    public static ArrayList<ContentValues> createAllCategoryRecordContentValues(Context context, QuizScorer thisScorer) throws Exception{
         if (thisScorer.size - thisScorer.currentQuestionCount > 1){
             throw new Exception("createCategoryRecordContentValues() called before quiz completion");
         }
@@ -230,9 +230,6 @@ public class QuizScorer {
     //  and the second int[] providing the correctly answered question from each category in the quiz.
     //  Refer to the respective indices using IndividualQuestions fields starting with 'CATEGORY_'
     public ArrayList<int[]> getCategoryScoreReport() throws NullPointerException{
-        if (mQuestionScorers==null){
-            throw new NullPointerException("getCategoryScoreReport() called with null mQuestionScorers");
-        }
         mCategoryScoreReport = new ArrayList<>(2);
         ArrayList<String> categoryList = IndividualQuestion.categoryList;
         int numberOfCategories = categoryList.size();
@@ -257,17 +254,6 @@ public class QuizScorer {
         return mCategoryScoreReport;
     }
 
-    //converts the output from the getCategoryScoreReport() into and arraylist of strings for presentation in the UI
-    public ArrayList<String> getQuizCategoryScoreReportScoreStrings(ArrayList<int[]> scoreReportInt){
-        int[] totalCategoryQuestions = scoreReportInt.get(SCORES_TOTAL_CATEGORY_QUESTIONS);
-        int[] correctCategoryAnswers = scoreReportInt.get(SCORES_CORRECT_CATEGORY_ANSWERS);
-        int numberOfCategories = totalCategoryQuestions.length;
-        ArrayList<String> returnList = new ArrayList<>(numberOfCategories);
-        for (int i = 0; i < numberOfCategories; i++){
-            returnList.add(Utility.returnOUTOFString(correctCategoryAnswers[i],totalCategoryQuestions[i]));
-        }
-        return returnList;
-    }
 
     public ArrayList<int[]> getOverallTimeReport(){
         mOverallTimeReport = new ArrayList<>(2);
@@ -275,7 +261,6 @@ public class QuizScorer {
         int[] wrongOverallTimes = new int[mQuestionScorers.size()];
         for (int i = 0; i < mQuestionScorers.size(); i++){
             QuestionScorer thisQuestionScorer = mQuestionScorers.get(i);
-
             if (thisQuestionScorer.getQuestionEvaluation()){
                 correctOverallTimes[i] = thisQuestionScorer.getTimeTaken();
                 wrongOverallTimes[i] = -1;

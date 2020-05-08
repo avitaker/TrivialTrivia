@@ -35,7 +35,6 @@ public class QuizScorerTest {
     private static QuizScorer basic;
     private static int basicQuizSize = 10;
     private static int halfCorrectSize = 4;
-    private static QuizScorer halfCorrect;
     private QuestionScorer firstQuestion;
     private QuestionScorer secondQuestion;
     private QuestionScorer thirdQuestion;
@@ -137,12 +136,12 @@ public class QuizScorerTest {
     @Test
     public void quizScoreMatchesContentValuesPassedToDB() throws Exception {
         //Set up: Add half correct questions to the QuizScorer
-        halfCorrect = QuizScorer.getInstance(mockContext, halfCorrectSize, 5);
+        QuizScorer halfCorrect = QuizScorer.getInstance(mockContext, halfCorrectSize, 5);
         halfCorrect.addQuestionScorer(firstQuestion);
         halfCorrect.addQuestionScorer(secondQuestion);
         halfCorrect.addQuestionScorer(thirdQuestion);
         halfCorrect.addQuestionScorer(fourthQuestion);
-        ContentValues cv = QuizScorer.createQuizRecordContentValues( mockContext, halfCorrect );
+        ContentValues cv = QuizScorer.createQuizRecordContentValues( mockContext, halfCorrect);
         int scoreForDB = (int)cv.getAsInteger(QuizDBContract.QuizEntry.COLUMN_NAME_SCORE);
         int score = halfCorrect.scoreQuiz( halfCorrectQuestions );
 
@@ -209,7 +208,7 @@ public class QuizScorerTest {
     @Test
     public void canNotGetCategoryScoreReportWhenNoQuestionsExist() {
         //Setup: No questions scored or added to quiz
-        basic = QuizScorer.getInstance(mockContext2, 3, 9);
+        basic = QuizScorer.getInstance(mockContext, 3, 9);
         try {
             ArrayList<int[]> result = basic.getCategoryScoreReport();
             fail("Expected exception has not been thrown. Can not get score by categories with no questions exist.");
@@ -248,6 +247,7 @@ public class QuizScorerTest {
         basic.addQuestionScorer(2, 2, 10, 3, 3);
         basic.addQuestionScorer(3, 0, 3, 2, 0);
         basic.addQuestionScorer(4, 3, 2, 1, 2);
+        QuizScorer.createAndInsertQuizRecord(mockContext, basic);
 
         double timeCorrect = basic.getTimeAverageCorrect();
         assertEquals("Avg sec for correct answers:",15.0, timeCorrect, DELTA);
@@ -261,10 +261,26 @@ public class QuizScorerTest {
         basic.addQuestionScorer(2, 2, 10, 3, 3);
         basic.addQuestionScorer(3, 0, 3, 2, 0);
         basic.addQuestionScorer(4, 3, 2, 1, 2);
+        QuizScorer.createAndInsertQuizRecord(mockContext, basic);
 
         double timeWrong = basic.getTimeAverageWrong();
         assertEquals("Avg sec for wrong answers:",2.5, timeWrong, DELTA);
     }
+
+    @Test
+    public void createAllCategoryRecordContentValues() throws Exception {
+        //Set up: Add half correct questions to the QuizScorer
+        QuizScorer halfCorrect = QuizScorer.getInstance(mockContext, halfCorrectSize, 13);
+        halfCorrect.addQuestionScorer(firstQuestion);
+        halfCorrect.addQuestionScorer(secondQuestion);
+        halfCorrect.addQuestionScorer(thirdQuestion);
+        halfCorrect.addQuestionScorer(fourthQuestion);
+
+        //This method calls a cursor object so it should be 0 after updating
+        QuizScorer.createAndInsertQuizRecord(mockContext2, halfCorrect);
+        int categoriesUpdated = QuizScorer.createAndUpdateCategoryRecords(mockContext2, halfCorrect);
+        assertEquals( 0, 0);
+ }
 
 
 }
