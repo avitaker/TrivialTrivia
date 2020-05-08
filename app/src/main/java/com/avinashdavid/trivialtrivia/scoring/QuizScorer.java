@@ -103,14 +103,10 @@ public class QuizScorer {
         return mQuestionScorers;
     }
 
-    public void setQuestionScorers(ArrayList<QuestionScorer> questionScorers) {
-        mQuestionScorers = questionScorers;
-    }
-
     //create content values for insertion into quizEntry table in database
     public static ContentValues createQuizRecordContentValues(Context context, QuizScorer thisScorer) throws Exception{
         if (thisScorer.size - thisScorer.currentQuestionCount > 1){
-            throw new Exception("createQuizRecordContentValues() called before quiz completion");
+            throw new Exception("createQuizRecordContentValues() called before quiz completion (" + thisScorer.currentQuestionCount + ", " + thisScorer.size + ")");
         }
         ContentValues quizValues = null;
         try {
@@ -136,12 +132,10 @@ public class QuizScorer {
         if (thisScorer.size - thisScorer.currentQuestionCount > 1){
             throw new Exception("createCategoryRecordContentValues() called before quiz completion");
         }
-//        Log.d(LOG_TAG, "checkpoint 1");
         ArrayList<ContentValues> returnList = new ArrayList<>(categoryList.size());
 
         if (thisScorer.mCategoryTotalTimeReport==null){
             thisScorer.mCategoryTotalTimeReport = thisScorer.getCategoryTotalTimeReport();
-//            Log.d(LOG_TAG, "checkpoint 1.0");
         }
         if (thisScorer.mCategoryScoreReport == null){
 //            Log.d(LOG_TAG, "checkpoint 1.05");

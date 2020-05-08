@@ -27,7 +27,7 @@ public class IndividualQuestionTest {
         ArrayList<String> actualCategories = IndividualQuestion.getCategoryList();
 
         for ( int i = 0; i < expectedList.size(); i++ ){
-            assertEquals( actualCategories.get(i), expectedList.get(i));
+            assertEquals( "Each category should be in list: ", actualCategories.get(i), expectedList.get(i));
         }
     }
 
@@ -38,7 +38,7 @@ public class IndividualQuestionTest {
             fail("Expected exception has not been thrown");
         }
         catch (IllegalArgumentException e) {
-            assertThat(e.getMessage(), is("ERROR: That is not a recognized category."));
+            assertThat("Category should not exist: ", e.getMessage(), is("ERROR: That is not a recognized category."));
         }
     }
 
@@ -53,7 +53,7 @@ public class IndividualQuestionTest {
         IndividualQuestion createdFromParcel = (IndividualQuestion) IndividualQuestion.CREATOR.createFromParcel(parcel);
 
         //Compare what wat created from the Parcel
-        assertEquals( "Question = [ questionNumber: 2, question: How big is a photon?, category: 1, correct: 0 ]", createdFromParcel.toString());
+        assertEquals( "Should be able to pass information between activities:" , "Question = [ questionNumber: 2, question: How big is a photon?, category: 1, correct: 0 ]", createdFromParcel.toString());
     }
 
     @Test
