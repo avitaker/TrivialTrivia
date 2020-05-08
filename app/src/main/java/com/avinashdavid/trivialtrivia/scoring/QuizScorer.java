@@ -33,12 +33,6 @@ public class QuizScorer {
     private ArrayList<int[]> mCategoryTotalTimeReport;
     private ArrayList<double[]> mCategoryAverageTimeReport;
 
-//    public ArrayList<int[]> getCategoryTotalTimeReport(){
-//        if (mCategoryTotalTimeReport==null){
-//            mCategoryTotalTimeReport = getCategoryTotalTimeReport();
-//        }
-//    }
-
     public static final int SCORES_TOTAL_CATEGORY_QUESTIONS = 0;
     public static final int SCORES_CORRECT_CATEGORY_ANSWERS = 1;
 
@@ -115,7 +109,7 @@ public class QuizScorer {
             quizValues.put(QuizDBContract.QuizEntry.COLUMN_NAME_AVERAGE_TIME_CORRECT, timeAverageCorrect);
             quizValues.put(QuizDBContract.QuizEntry.COLUMN_NAME_AVERAGE_TIME_WRONG, timeAverageWrong);
         } catch (Exception e){
-//            Log.d(LOG_TAG, "Error at addquizrecord(): " + e.getMessage());
+            Log.d(LOG_TAG, "Error at addquizrecord(): " + e.getMessage());
         }
         return quizValues;
     }
@@ -173,7 +167,7 @@ public class QuizScorer {
         try {
             contentValues = createQuizRecordContentValues(context, thisScorer);
             retUri  = context.getContentResolver().insert(QuizDBContract.QuizEntry.CONTENT_URI, contentValues);
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.d(LOG_TAG, "error while inserting quiz record: " + e);
         }
         return retUri;
@@ -184,7 +178,7 @@ public class QuizScorer {
         try {
             ArrayList<ContentValues> contentValuesArrayList = createAllCategoryRecordContentValues(context, thisScorer);
             int i= 0;
-            while (i<contentValuesArrayList.size()){
+            while (i < contentValuesArrayList.size()){
                 try {
                     retInt += context.getContentResolver().update(QuizDBContract.CategoryEntry.buildUriCategoryIndex(i), contentValuesArrayList.get(i), null, null);
                 } finally {
@@ -250,12 +244,9 @@ public class QuizScorer {
             for (int c = 0; c < numberOfCategories; c++){
                 if (thisQuestionScorer.getCategory()==c){
                     totalCategoryQuestions[c] = totalCategoryQuestions[c]+1;
-//                    Log.d("getCategoryScoreReport", "checkpoint 4.2: c iteration " + Integer.toString(c) + " i iteration " + Integer.toString(i));
-//                    Log.d("getCategoryScoreReport", Integer.toString(totalCategoryQuestions[c]) + " questions in category " + Integer.toString(c));
+                    Log.d("getCategoryScoreReport", Integer.toString(totalCategoryQuestions[c]) + " questions in category " + Integer.toString(c));
                     if (thisQuestionScorer.getQuestionEvaluation()){
                         correctCategoryAnswers[c] = correctCategoryAnswers[c]+1;
-//                        Log.d("getCategoryScoreReport", "checkpoint 4.3: c iteration " + Integer.toString(c) + " i iteration " + Integer.toString(i));
-//                        Log.d("getCategoryScoreReport", Integer.toString(correctCategoryAnswers[i]) + " correct answers in category " + Integer.toString(i));
                     }
                 }
             }

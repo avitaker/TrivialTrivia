@@ -30,11 +30,11 @@ public class InsertRecordsService extends IntentService {
         mQuizNumber = intent.getIntExtra(EXTRA_SERVICE_QUIZ_NUMBER, QuizScorer.sQuizNumber);
         mQuizSize = intent.getIntExtra(EXTRA_SERICE_QUIZ_SIZE, 10);
         mQuizScorer = QuizScorer.getInstance(this.getApplicationContext(), mQuizSize, mQuizNumber);
-        Uri uri = QuizScorer.createAndInsertQuizRecord(this.getApplicationContext(), mQuizScorer);
+        QuizScorer.createAndInsertQuizRecord(this.getApplicationContext(), mQuizScorer);
         int categories_updated = QuizScorer.createAndUpdateCategoryRecords(this.getApplicationContext(), mQuizScorer);
 
-        if (uri==null || categories_updated<IndividualQuestion.categoryList.size()){
-//            Log.d(LOG_TAG, "records insertion problem");
+        if (categories_updated < IndividualQuestion.categoryList.size()){
+            throw new IllegalArgumentException( "Error: record insertion problem.");
         }
 
         CategoryStatisticsCalculator.calculateCategoryPerformanceReports(this, mQuizNumber);

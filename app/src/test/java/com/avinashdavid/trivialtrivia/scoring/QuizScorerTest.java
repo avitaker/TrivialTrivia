@@ -2,10 +2,13 @@ package com.avinashdavid.trivialtrivia.scoring;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.net.Uri;
+
 import com.avinashdavid.trivialtrivia.data.QuizDBContract;
 import com.avinashdavid.trivialtrivia.data.QuizDBHelper;
 import com.avinashdavid.trivialtrivia.questions.IndividualQuestion;
 import com.avinashdavid.trivialtrivia.questions.QuestionsHandling;
+import com.thoughtworks.xstream.mapper.Mapper;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -51,6 +54,9 @@ public class QuizScorerTest {
 
     @Mock
     Context mockContext;
+
+    @Mock
+    Context mockContext2;
 
     @Before
     public void setUp() throws Exception {
@@ -175,14 +181,65 @@ public class QuizScorerTest {
     @Test
     public void quizScoreShouldNotTakeNullQuestionList()  {
         //Set up
-        halfCorrect = QuizScorer.getInstance(mockContext, halfCorrectSize, 7);
+        basic = QuizScorer.getInstance(mockContext, basicQuizSize, 7);
+        ArrayList<QuestionScorer> testNull = null;
         try {
-            int score = halfCorrect.scoreQuiz( halfCorrectQuestions );
+            int score = basic.scoreQuiz( testNull );
             fail("Expected exception has not been thrown. Can not check null question list.");
         }
         catch (Exception e) {
             assertThat(e.getMessage(), is("scorequiz() called with null arraylist"));
         }
     }
+
+    @Test
+    public void getCategoryScoreReport() throws Exception {
+        //Setup:  Initially add 2 questions and insert into quiz records
+        basic = QuizScorer.getInstance(mockContext, 3, 8);
+        basic.addQuestionScorer(1, 2, 1, 1);
+        basic.addQuestionScorer(2, 2, 3, 3);
+        basic.addQuestionScorer(3, 0, 2, 0);
+
+        int totalFromWorld = basic.getCategoryScoreReport().get(QuizScorer.SCORES_TOTAL_CATEGORY_QUESTIONS)[IndividualQuestion.CATEGORY_WORLD];
+        int totalFromGeneral = basic.getCategoryScoreReport().get(QuizScorer.SCORES_TOTAL_CATEGORY_QUESTIONS)[IndividualQuestion.CATEGORY_GENERAL];
+        int totalFromScience = basic.getCategoryScoreReport().get(QuizScorer.SCORES_TOTAL_CATEGORY_QUESTIONS)[IndividualQuestion.CATEGORY_SCIENCE];
+
+        assertEquals("Two questions from 'world' category",2, totalFromWorld);
+        assertEquals("One question from 'general' category",1, totalFromGeneral);
+        assertEquals("Zero questions from 'science' category",0, totalFromScience);
+    }
+
+//
+//    @Test
+//    public void insertQuizRecordPerfect() throws Exception {
+//        //Setup:  Initially add 2 questions and insert into quiz records
+//        basic = QuizScorer.getInstance(mockContext, 4, 8);
+//        basic.addQuestionScorer(1, 2, 1, 1);
+//        basic.addQuestionScorer(1, 3, 3, 3);
+//
+//        //
+//        //assertEquals("Quiz size:", 4, (int)cv.getAsInteger(QuizDBContract.QuizEntry.COLUMN_NAME_QUIZ_SIZE));
+//        //assertEquals("Quiz score:", 2, (int)cv.getAsInteger(QuizDBContract.QuizEntry.COLUMN_NAME_SCORE));
+//
+//        basic.addQuestionScorer(1, 2, 1, 1);
+//        basic.addQuestionScorer(1, 3, 3, 3);
+//
+//        ContentValues cv = QuizScorer.createQuizRecordContentValues( mockContext, basic );
+//        ContentValues cvQuestionsNotAdded = QuizScorer.createAndInsertQuizRecord( mockContext, basic );
+//
+//        assertEquals( cv, cvQuestionsNotAdded );
+//        assertEquals("Quiz score:", 4, (int)cvQuestionsNotAdded.getAsInteger(QuizDBContract.QuizEntry.COLUMN_NAME_SCORE));
+//
+//
+//        //Uri uriActual = QuizScorer.createAndInsertQuizRecord(mockContext2, basic);
+//        // int categories_updated = QuizScorer.createAndUpdateCategoryRecords(mockContext2, basic);
+//
+////        String link = "http://www.bogus.com/";
+////        Uri uriExpected = Uri.parse(link);
+////
+////        assertEquals( uriExpected, uriActual );
+////        assertEquals(categories_updated,  IndividualQuestion.categoryList.size());
+//
+//    }
 
 }
