@@ -32,6 +32,7 @@ public class QuizScorerTest {
      *  Testing a Static Factory, so in order to prevent
      *  caching need to pass in a new quiz number between tests
      */
+    private static final double DELTA = 1e-15;
     private static QuizScorer basic;
     private static int basicQuizSize = 10;
     private static int halfCorrectSize = 4;
@@ -66,14 +67,11 @@ public class QuizScorerTest {
         halfCorrectQuestions.add( secondQuestion );
         halfCorrectQuestions.add( thirdQuestion );
         halfCorrectQuestions.add( fourthQuestion );
-
-
     }
-
 
     @Test
     public void setSize() {
-        //Should set the size of the quiz, which is the number of questions
+        //Should set the size of the quiz (the number of questions)
         basic = QuizScorer.getInstance(mockContext, basicQuizSize, 0);
         assertEquals(basicQuizSize, basic.getSize() );
         basic.setSize(100);
@@ -110,9 +108,23 @@ public class QuizScorerTest {
     }
 
     @Test
+    public void addQuestionsToEmptyQuiz() throws Exception {
+        //Set up: Two question quiz with 1 wrong answer selected
+        basic = QuizScorer.getInstance(mockContext, 2, 3);
+        basic.addQuestionScorer(1, 2, 1, 2);
+        basic.addQuestionScorer(1, 2, 3, 3);
+        ArrayList<QuestionScorer> qs = basic.getQuestionScorers();
+        ContentValues cv = QuizScorer.createQuizRecordContentValues( mockContext, basic );
+
+        assertEquals("Quiz size:", 2, (int)cv.getAsInteger(QuizDBContract.QuizEntry.COLUMN_NAME_QUIZ_SIZE));
+        assertEquals("Quiz score:", 1, (int)cv.getAsInteger(QuizDBContract.QuizEntry.COLUMN_NAME_SCORE));
+    }
+
+
+    @Test
     public void quizScoreShouldBeZeroWhenAllWrong() throws Exception {
         //Set up: One question quiz with wrong answer selected
-        basic = QuizScorer.getInstance(mockContext, 1, 3);
+        basic = QuizScorer.getInstance(mockContext, 1, 4);
         basic.addQuestionScorer(1, 0, 1, 2);
         ContentValues cv = QuizScorer.createQuizRecordContentValues( mockContext, basic );
 
@@ -120,11 +132,10 @@ public class QuizScorerTest {
         assertEquals("Quiz score:", 0, (int)cv.getAsInteger(QuizDBContract.QuizEntry.COLUMN_NAME_SCORE));
     }
 
-
     @Test
     public void quizScoreMatchesContentValuesPassedToDB() throws Exception {
-        //Setup Add half correct questions to the QuizScorer
-        halfCorrect = QuizScorer.getInstance(mockContext, halfCorrectSize, 4);
+        //Set up: Add half correct questions to the QuizScorer
+        halfCorrect = QuizScorer.getInstance(mockContext, halfCorrectSize, 5);
         halfCorrect.addQuestionScorer(firstQuestion);
         halfCorrect.addQuestionScorer(secondQuestion);
         halfCorrect.addQuestionScorer(thirdQuestion);
@@ -138,30 +149,28 @@ public class QuizScorerTest {
         assertEquals("Quiz score inserted into quizEntry table in database: ", score,  scoreForDB );
     }
 
-//
-//    @Test
-//    public void quizScoreShouldBe() throws Exception {
-//        //Set up: Two question quiz with wrong answer selected
-//        basic = QuizScorer.getInstance(mockContext, 2, 5);
-//        basic.addQuestionScorer(1, 2, 1, 2);
-//        basic.addQuestionScorer(1, 2, 3, 3);
-//        ArrayList<QuestionScorer> qs = basic.getQuestionScorers();
-//
-//
-////        QuestionScorer firstQuestionScorer = new QuestionScorer(firstQuestion.questionNumber, firstQuestion.category, firstQuestion.correctAnswer, 0);
-////        firstQuestionScorer.setTimeTaken(4);
-////        QuestionScorer secondQuestionScorer = new QuestionScorer(secondQuestion.questionNumber, secondQuestion.category, 5, secondQuestion.correctAnswer, 3);
-////        QuestionScorer thirdQuestionScorer = new QuestionScorer(thirdQuestion.questionNumber, thirdQuestion.category, 7, thirdQuestion.correctAnswer, 2);
-////        QuestionScorer fourthQuestionScorer = new QuestionScorer(fourthQuestion.questionNumber, fourthQuestion.category, fourthQuestion.correctAnswer, 0);
-////        fourthQuestionScorer.setTimeTaken(3);
-////        QuestionScorer fifthQuestionScorer = new QuestionScorer(fifthQuestion.questionNumber, fifthQuestion.category, 10, fifthQuestion.correctAnswer, 3);
-//
-//
-//        ContentValues cv = QuizScorer.createQuizRecordContentValues( mockContext, basic );
-//
-//        assertEquals("Quiz size:", 1, (int)cv.getAsInteger(QuizDBContract.QuizEntry.COLUMN_NAME_QUIZ_SIZE));
-//        assertEquals("Quiz score:", 0, (int)cv.getAsInteger(QuizDBContract.QuizEntry.COLUMN_NAME_SCORE));
-//    }
 
-    //
+    @Test
+    public void averageTimeOnQuestions() throws Exception {
+        //Set up: Two question quiz with wrong answer selected and time taken to complete
+        basic = QuizScorer.getInstance(mockContext, 2, 6);
+        basic.addQuestionScorer(1, 2,  301,1, 2);
+        basic.addQuestionScorer(1, 2, 122, 3, 3);
+        ArrayList<QuestionScorer> qs = basic.getQuestionScorers();
+        double total = 0;
+        double avg = 0;
+        for( int i = 0; i < qs.size(); i++){
+            total += qs.get(i).getTimeTaken();
+        }
+        avg = (double) total / qs.size();
+        ContentValues cv = QuizScorer.createQuizRecordContentValues( mockContext, basic );
+
+        // Average times should be compared using delta - the maximum delta between expected and actual for which both numbers are still considered equal.
+        assertEquals( "Avg time on all questions: ", 211.5, (double)cv.getAsDouble(QuizDBContract.QuizEntry.COLUMN_NAME_AVERAGE_TIME_OVERALL) , DELTA);
+        assertEquals( "Avg time from get all question scorers: ", 211.5, avg, DELTA);
+        assertEquals("Quiz size:", 2, (int)cv.getAsInteger(QuizDBContract.QuizEntry.COLUMN_NAME_QUIZ_SIZE));
+        assertEquals("Quiz score:", 1, (int)cv.getAsInteger(QuizDBContract.QuizEntry.COLUMN_NAME_SCORE));
+    }
+
+
 }
