@@ -172,5 +172,17 @@ public class QuizScorerTest {
         assertEquals("Quiz score:", 1, (int)cv.getAsInteger(QuizDBContract.QuizEntry.COLUMN_NAME_SCORE));
     }
 
+    @Test
+    public void quizScoreShouldNotTakeNullQuestionList()  {
+        //Set up
+        halfCorrect = QuizScorer.getInstance(mockContext, halfCorrectSize, 7);
+        try {
+            int score = halfCorrect.scoreQuiz( halfCorrectQuestions );
+            fail("Expected exception has not been thrown. Can not check null question list.");
+        }
+        catch (Exception e) {
+            assertThat(e.getMessage(), is("scorequiz() called with null arraylist"));
+        }
+    }
 
 }
