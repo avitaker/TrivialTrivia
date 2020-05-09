@@ -98,7 +98,7 @@ public class QuestionScorer implements Parcelable {
         if( timeTaken >= 0 ){
             this.timeTaken = timeTaken;
         }
-        else
-            throw new IllegalStateException("ERROR: Time must be a positive integer.");
+//        else
+//            throw new IllegalStateException("ERROR: Time must be a positive integer.");
     }
 }

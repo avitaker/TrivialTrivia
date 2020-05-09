@@ -85,11 +85,10 @@ public class TestQuizScorer extends AndroidTestCase {
             Log.d(LOG_TAG, e.getMessage());
         }
 
-        ArrayList<String> testScoreReport = mQuizScorer.getQuizCategoryScoreReportScoreStrings(mQuizScorer.getCategoryScoreReport());
-        assertEquals("Quiz taker's score report shows '2/2' for 'world' category","2/2",testScoreReport.get(IndividualQuestion.CATEGORY_WORLD));
-        assertEquals("Quiz taker's score report shows '0/1' for 'science' category","0/1",testScoreReport.get(IndividualQuestion.CATEGORY_SCIENCE));
-
-
+//        ArrayList<String> testScoreReport = mQuizScorer.getQuizCategoryScoreReportScoreStrings(mQuizScorer.getCategoryScoreReport());
+//        assertEquals("Quiz taker's score report shows '2/2' for 'world' category","2/2",testScoreReport.get(IndividualQuestion.CATEGORY_WORLD));
+//        assertEquals("Quiz taker's score report shows '0/1' for 'science' category","0/1",testScoreReport.get(IndividualQuestion.CATEGORY_SCIENCE));
+//
 
         ArrayList<int[]> allAnswersTimes = mQuizScorer.getOverallTimeReport();
 //        ArrayList<int[]> categoryAnswersTimes = mQuizScorer.getCategoryTotalTimeReport();
@@ -102,10 +101,6 @@ public class TestQuizScorer extends AndroidTestCase {
         assertEquals("Average time on correct answers is 6.0",6.0,mQuizScorer.getTimeAverageCorrect());
 //        assertEquals("Average time on all answers is ", 5.80, Utility.getAverageFromCOMPLEMENTARYIntListsWITHNegativeValueElimination(allAnswersTimes.get(QuizScorer.TIMES_WRONG_OVERALL),allAnswersTimes.get(QuizScorer.TIMES_CORRECT_OVERALL)));
         assertEquals("Average time on all answers is ", 5.80, mQuizScorer.getTimeAverageAllQuestions());
-
-        assertEquals("Average time on correctly answered 'general' questions is 7", 7.0, mQuizScorer.getCategoryAverageTimeReport().get(QuizScorer.TIMES_CORRECT_BY_CATEGORY)[IndividualQuestion.CATEGORY_GENERAL]);
-        assertEquals("Average time on wrongly answered 'science' questions is 5", 5.0, mQuizScorer.getTimeAverageWRONGForCategory(IndividualQuestion.CATEGORY_SCIENCE));
-        assertEquals("Average time on all answered 'science' questions is 5", 5.0, mQuizScorer.getTimeAverageOVERALLForCategory(IndividualQuestion.CATEGORY_SCIENCE));
 
     }
 

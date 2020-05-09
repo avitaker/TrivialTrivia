@@ -65,12 +65,11 @@ public class QuestionScorerTest {
     }
 
     @Test
-    public void setTimeTakenIllegalStateException() {
+    public void setTimeTakenShouldNotBeNegative() {
         try {
             //Should throw exception from negative number
             qsNoTimeCorrect.setTimeTaken(-88);
             fail("Expected exception has not been thrown");
-
         } catch (IllegalStateException e) {
             assertThat(e.getMessage(), is("ERROR: Time must be a positive integer."));
         }
