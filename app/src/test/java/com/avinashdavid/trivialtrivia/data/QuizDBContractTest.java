@@ -22,6 +22,16 @@ public class QuizDBContractTest {
         assertEquals("content://com.avinashdavid.trivialtrivia.data/quiz/3", QuizDBContract.QuizEntry.buildUriQuizId(3).toString() );
     }
 
+    @Test
+    public void testbuildUriCategoryId(){
+        // buildUriCategoryId should return the expected URI
+        assertEquals("content://com.avinashdavid.trivialtrivia.data/category/4", QuizDBContract.CategoryEntry.buildUriCategoryId(4).toString());
+    }
 
+    @Test
+    public void testbuildUriCategoryName(){
+        // buildUriCategoryName should return the expected URI
+        assertEquals("content://com.avinashdavid.trivialtrivia.data/category/1", QuizDBContract.CategoryEntry.buildUriCategoryName("general").toString());
+    }
 
 }
