@@ -45,4 +45,10 @@ public class QuizDBContractTest {
         // category index return the expected URI
         assertEquals("content://com.avinashdavid.trivialtrivia.data/category/4", QuizDBContract.CategoryEntry.buildUriCategoryIndex(3).toString());
     }
+
+    @Test
+    public void buildUriQuizScoreForId(){
+        //Quiz Score id Should Return the URI Needed
+        assertEquals("content://com.avinashdavid.trivialtrivia.data/quiz/quizScore/_id/3", QuizDBContract.QuizEntry.buildUriQuizScoreForId(3).toString() );
+    }
 }

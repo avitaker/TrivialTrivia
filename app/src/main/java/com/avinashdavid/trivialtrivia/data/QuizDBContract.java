@@ -19,7 +19,6 @@ public class QuizDBContract {
     public QuizDBContract() {
     }
 
-
     public static abstract class QuizEntry implements BaseColumns{
         public static final String TABLE_NAME = "quizEntry";
         public static final String COLUMN_NAME_QUIZ_SIZE = "quizSize";
@@ -84,8 +83,5 @@ public class QuizDBContract {
         public static Uri buildUriCategoryTotalQuestionsAnsweredForId(long id){
             return CONTENT_URI.buildUpon().appendPath(COLUMN_NAME_TOTAL_QUESTIONS_ANSWERED).appendPath(_ID).appendPath(Long.toString(id)).build();
         }
-
-
     }
-
 }
