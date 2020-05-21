@@ -16,9 +16,6 @@ public class QuizDBContract {
     public static final String CONTENT_AUTHORITY = "com.avinashdavid.trivialtrivia.data";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://"+CONTENT_AUTHORITY);
 
-    public QuizDBContract() {
-    }
-
     public static abstract class QuizEntry implements BaseColumns{
         public static final String TABLE_NAME = "quizEntry";
         public static final String COLUMN_NAME_QUIZ_SIZE = "quizSize";

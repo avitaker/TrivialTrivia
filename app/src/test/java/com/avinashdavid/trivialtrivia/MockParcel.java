@@ -67,6 +67,7 @@ public class MockParcel {
         when(mParcel.readParcelable(any(ClassLoader.class))).then(answer);
         when(mParcel.readFloat()).thenAnswer(answer);
         when( mParcel.readArrayList(any(ClassLoader.class))).then(answer);
+
     }
 
     private void setupOthers() {

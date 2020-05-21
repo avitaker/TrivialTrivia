@@ -84,7 +84,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    private ArrayList<ContentValues> initialCategoryContentValues(){
+    public ArrayList<ContentValues> initialCategoryContentValues(){
         ArrayList<String> categoryList = IndividualQuestion.categoryList;
         ArrayList<ContentValues> returnList = new ArrayList<>(categoryList.size());
         for (int i = 0; i< categoryList.size(); i++){
