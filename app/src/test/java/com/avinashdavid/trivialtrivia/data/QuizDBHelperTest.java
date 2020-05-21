@@ -64,13 +64,6 @@ public class QuizDBHelperTest {
 
     @Test
     public void getReadableDatabase() {
-        ContentValues generalValues = new ContentValues();
-        generalValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_NAME, "general");
-        generalValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_TOTAL_QUESTIONS_ANSWERED,10);
-        generalValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_CORRECTLY_ANSWERED,7);
-        generalValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_TOTAL_TIME_OVERALL,8.0);
-        generalValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_TOTAL_TIME_CORRECT,8.0);
-        generalValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_TOTAL_TIME_WRONG,8.0);
         secondQuizDBHelper.onUpgrade(db, 0, 0);
         SQLiteDatabase db = secondQuizDBHelper.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + QuizDBContract.CategoryEntry.TABLE_NAME , null);
@@ -81,6 +74,31 @@ public class QuizDBHelperTest {
         c.moveToNext();
         assertEquals("science", c.getString(1) );
         assertEquals("total questions: ", "0", c.getString(3) );
+    }
+
+
+    @Test
+    public void insertNewCategoryIntoDB() {
+        SQLiteDatabase dbs = secondQuizDBHelper.getWritableDatabase();
+        ContentValues categoryValues = new ContentValues();
+        categoryValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_NAME,"DonaldDuck");
+        categoryValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_TOTAL_QUESTIONS_ANSWERED, 7);
+        categoryValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_CORRECTLY_ANSWERED, 5);
+        categoryValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_TOTAL_TIME_OVERALL, 12.0);
+        categoryValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_TOTAL_TIME_CORRECT, 1.0);
+        categoryValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_TOTAL_TIME_WRONG, 11.0);
+        long returnValue = dbs.insertOrThrow(QuizDBContract.CategoryEntry.TABLE_NAME, null, categoryValues);
+
+        assertEquals( "Number of categories now",7, returnValue );
+
+        SQLiteDatabase db = secondQuizDBHelper.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM " + QuizDBContract.CategoryEntry.TABLE_NAME , null);
+        c.moveToLast();
+
+        assertEquals("DonaldDuck", c.getString(1) );
+        assertEquals("total questions: ", "7", c.getString(2) );
+        assertEquals("correctly answered: ", "5", c.getString(3) );
+        assertEquals("total time overall: ", "12", c.getString(4) );
     }
 
 
