@@ -62,7 +62,26 @@ public class QuizDBHelperTest {
         assertEquals( 6, total );
     }
 
+    @Test
+    public void getReadableDatabase() {
+        ContentValues generalValues = new ContentValues();
+        generalValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_NAME, "general");
+        generalValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_TOTAL_QUESTIONS_ANSWERED,10);
+        generalValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_CORRECTLY_ANSWERED,7);
+        generalValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_TOTAL_TIME_OVERALL,8.0);
+        generalValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_TOTAL_TIME_CORRECT,8.0);
+        generalValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_TOTAL_TIME_WRONG,8.0);
+        secondQuizDBHelper.onUpgrade(db, 0, 0);
+        SQLiteDatabase db = secondQuizDBHelper.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM " + QuizDBContract.CategoryEntry.TABLE_NAME , null);
+        c.moveToFirst();
 
+        assertEquals("general", c.getString(1) );
+        assertEquals("total questions: ", "0", c.getString(3) );
+        c.moveToNext();
+        assertEquals("science", c.getString(1) );
+        assertEquals("total questions: ", "0", c.getString(3) );
+    }
 
 
 }
