@@ -76,7 +76,6 @@ public class QuizDBHelperTest {
         assertEquals("total questions: ", "0", c.getString(3) );
     }
 
-
     @Test
     public void insertNewCategoryIntoDB() {
         SQLiteDatabase dbs = secondQuizDBHelper.getWritableDatabase();
@@ -101,5 +100,21 @@ public class QuizDBHelperTest {
         assertEquals("total time overall: ", "12", c.getString(4) );
     }
 
+    @Test
+    public void downgradeAfterInsertNewCategoryIntoDB() {
+        SQLiteDatabase dbs = secondQuizDBHelper.getWritableDatabase();
+        ContentValues categoryValues = new ContentValues();
+        categoryValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_NAME,"DonaldDuck");
+        categoryValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_TOTAL_QUESTIONS_ANSWERED, 7);
+        categoryValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_CORRECTLY_ANSWERED, 5);
+        categoryValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_TOTAL_TIME_OVERALL, 7.0);
+        categoryValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_TOTAL_TIME_CORRECT, 7.0);
+        categoryValues.put(QuizDBContract.CategoryEntry.COLUMN_NAME_TOTAL_TIME_WRONG, 7.0);
+        long returnValue = dbs.insertOrThrow(QuizDBContract.CategoryEntry.TABLE_NAME, null, categoryValues);
+
+        assertEquals( "Number of categories now",7, returnValue );
+        secondQuizDBHelper.onDowngrade( dbs, 0, 1);
+        assertEquals( "Number of categories should not be affected by downgrade",7, returnValue );
+    }
 
 }
