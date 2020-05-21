@@ -2,6 +2,7 @@ package com.avinashdavid.trivialtrivia.data;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
@@ -51,7 +52,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
     private static final String SQL_DELETE_CATEGORY_ENTRIES =
             "DROP TABLE IF EXISTS " + QuizDBContract.CategoryEntry.TABLE_NAME;
 
-    private QuizDBHelper(Context context) {
+    QuizDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -98,5 +99,11 @@ public class QuizDBHelper extends SQLiteOpenHelper {
             returnList.add(i,cv);
         }
         return returnList;
+    }
+
+    public int getCount(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + QuizDBContract.CategoryEntry.TABLE_NAME, null);
+        return cursor.getCount();
     }
 }
