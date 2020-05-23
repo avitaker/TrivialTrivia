@@ -98,7 +98,10 @@ public class OverallStatisticsCalculatorTest
         when(mockContentResolver.query(any(Uri.class), any(String[].class), (String) isNull(), (String[]) isNull(), (String) isNull()))
                 .thenReturn(cursor);
         when(mockContext.getContentResolver()).thenReturn(mockContentResolver);
-        cursor.setColumnNames(new ArrayList<>(Arrays.asList(CALCULATOR_COLUMNS)));
+        if (cursor != null)
+        {
+            cursor.setColumnNames(new ArrayList<>(Arrays.asList(CALCULATOR_COLUMNS)));
+        }
     }
 
     // This test fails due to code bug
@@ -115,7 +118,7 @@ public class OverallStatisticsCalculatorTest
         setupContentResolver(null);
         ArrayList<Double> actual = OverallStatisticsCalculator.getOverallPerformanceAndAverages(mockContext);
         assertNotNull(actual);
-        assertEquals(actual.size(), 0);
+        assertEquals(0, actual.size());
     }
 
     // This test fails due to code bug
@@ -127,7 +130,7 @@ public class OverallStatisticsCalculatorTest
         fakeCursor.setResults(new Object[][]{});
         ArrayList<Double> expected = new ArrayList<>(Arrays.asList(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
         ArrayList<Double> actual = OverallStatisticsCalculator.getOverallPerformanceAndAverages(mockContext);
-        assertEquals(actual, expected);
+        assertEquals(expected, actual);
     }
 
     @Test
