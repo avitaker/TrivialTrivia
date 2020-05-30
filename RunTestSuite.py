@@ -99,3 +99,33 @@ if __name__ == "__main__":
     suite of tests from android and the email the report should be sent to.
     """
 
+    if(len(sys.argv) == 3):
+        numLoop = int(sys.argv[1])
+        receiver_email = sys.argv[2]
+        sendEmail = True
+    elif(len(sys.argv) == 2):
+        numLoop = int(sys.argv[1])
+        sendEmail = False
+    else:
+        numLoop = 1
+        sendEmail = False
+
+    print( "\nTEST SUMMARY:\n")
+    testResults, overallResult, fails = runTestMultipleTimes(numLoop)
+    print( overallResult )
+    uniqueFail = formatFailure( fails )
+    print( uniqueFail )
+
+    if sendEmail:
+        port = 465  # For SSL
+        smtp_server = "smtp.gmail.com"
+        sender_email =  config.sender
+        password = config.password
+
+        email = createEmail(testResults, overallResult, uniqueFail)
+        context = ssl.create_default_context()
+
+        with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+            server.login(sender_email, password)
+            server.sendmail(sender_email, receiver_email, email)
+            server.quit()
