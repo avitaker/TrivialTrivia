@@ -28,6 +28,21 @@ def getTestResults(output):
     return result
 
 
+def runAndroidTest():
+    subprocess.call("gradle clean", shell=True)
+    subprocess.call("gradle build -x lint", shell=True)
+    cmdExe = "gradlew test"
+    process = subprocess.Popen(cmdExe, stdout=subprocess.PIPE, shell=True)
+    output = process.communicate()[0]
+    output = str(output)
+    return output
+
+def createEmail(testResults, resultFormat, fails ):
+    version = random.randint(0, 500)
+    email = "Subject: Trivial Trivia Test Summary - " + testResults  + str(version) + " \n"
+    email += resultFormat 
+    email += fails
+    return email
 
 
 
