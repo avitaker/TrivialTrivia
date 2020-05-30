@@ -1,54 +1,39 @@
 import subprocess, smtplib, ssl, sys, time
 from email.message import EmailMessage
+import re, config
+import random
 
-if(len(sys.argv) == 3):
-    numLoop = int(sys.argv[1])
-    receiver_email = sys.argv[2]
-    sendEmail = True
-elif(len(sys.argv) == 2):
-    numLoop = int(sys.argv[1])
-    sendEmail = False
-else:
-    numLoop = 1
-    sendEmail = False
 
-for i in range(numLoop):
-    timeStart = time.time()
-    # Command to execute
-    cmdExe = "gradlew test"
+"""
+ RunTestSuite runs the unit tests in android studio a certain 
+ number of times and emails the results using gradle commands. 
 
-    process = subprocess.Popen(cmdExe, stdout=subprocess.PIPE, shell=True)
-    output = process.communicate()[0]
+ Example of running this script:
+ $ python RunTestSuite.py 2 clipsong@gmail.com
+"""
 
-    output = str(output)
-
-    formatted_output = output.replace('\\n', '\n')
-    formatted_output = formatted_output[2:-1]
-    timeEnd = time.time()
-
+def generateSummary(testResults, timeStart, timeEnd, i ):
     elapsedTime = timeEnd - timeStart
+    outcome = "\nLoop " + str(i) + ": " + testResults +" Elapsed Time: " + str(round(elapsedTime, 3)) + "s\n"
+    return outcome
 
+
+def getTestResults(output):
     if "BUILD SUCCESSFUL" not in str(output):
         testResults = "\033[1;31;40m FAILED \x1b[0m"
-        subject = "Subject: Test Failure\n"
+        result = "Some Test Failure "
     else:
         testResults = "\033[1;32;40m PASSED \x1b[0m"
-        subject = "Subject: Test Pass\n"
+        result = "All Tests Pass "
+    return result
 
-    print("Loop " + str(i) + " Test: " + testResults +" Elapsed Time: " + str(round(elapsedTime, 3)) + "s")
 
-if sendEmail:
 
-    # Allows for emails to be sent
-    port = 465  # For SSL
-    smtp_server = "smtp.gmail.com"
-    sender_email = "chesstestingteam@gmail.com"
-    password = "ThisIsNotASecurePassword"
 
-    email = subject + formatted_output
 
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-        server.login(sender_email, password)
-        server.sendmail(sender_email, receiver_email, email)
-        server.quit()
+if __name__ == "__main__":
+    """
+    Can take up to 2 Command Line Arguments,  the number of times to run the entire
+    suite of tests from android and the email the report should be sent to.
+    """
+
