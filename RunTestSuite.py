@@ -45,6 +45,31 @@ def createEmail(testResults, resultFormat, fails ):
     return email
 
 
+def formatLoopOutput(loopNum, outputOrig, verbose):
+    countPass = 0
+    countFail = 0
+    output = outputOrig.replace('\\n', '\n')
+
+    allP = re.findall("PASSED", output)
+    for p in allP:
+        countPass+=1
+    allFails = re.findall("com.avinashdavid.trivialtrivia.*FAILED", output)
+    fails = set(allFails)
+    for f in allFails:
+        countFail+=1
+
+    result = "  UNIT TESTS: Passed = " + str(countPass) + " Failed = " + str(countFail) + " - Loop " + str(loopNum) + "\n"
+    if verbose:
+        print(output)
+        summary = ""
+        allS = re.findall("RUNNING.*result: SUCCESS", output)
+        for s in allS:
+            summary += s + "\n"
+        return summary +  result
+    return (result, fails)
+
+
+
 
 if __name__ == "__main__":
     """
