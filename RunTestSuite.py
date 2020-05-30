@@ -69,6 +69,28 @@ def formatLoopOutput(loopNum, outputOrig, verbose):
     return (result, fails)
 
 
+def runTestMultipleTimes( numLoop ):
+    overallResult = ""
+    for i in range(numLoop):
+        timeStart = time.time()
+        output = runAndroidTest()
+        
+        resultFormat, fails = formatLoopOutput( i, output , False )
+        timeEnd = time.time()
+        testResults = getTestResults( output )
+        overallResult += generateSummary(testResults, timeStart, timeEnd, i)
+        overallResult += resultFormat
+    return [testResults, overallResult, fails] 
+
+def formatFailure( fails ):
+    results = "Failures: \n"
+    uniqueFail = set()
+    for f in fails:
+        if f not in uniqueFail:
+            uniqueFail.add( f )
+            results += "   "  + f + "\n"
+    return results
+
 
 
 if __name__ == "__main__":
