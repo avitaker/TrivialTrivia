@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import subprocess, smtplib, ssl, sys, time
 from email.message import EmailMessage
 import re, config
