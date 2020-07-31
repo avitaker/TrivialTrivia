@@ -3,7 +3,6 @@ package com.avinashdavid.trivialtrivia.data;
 import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
-
 import com.avinashdavid.trivialtrivia.questions.IndividualQuestion;
 
 /**
@@ -16,10 +15,6 @@ import com.avinashdavid.trivialtrivia.questions.IndividualQuestion;
 public class QuizDBContract {
     public static final String CONTENT_AUTHORITY = "com.avinashdavid.trivialtrivia.data";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://"+CONTENT_AUTHORITY);
-
-    public QuizDBContract() {
-    }
-
 
     public static abstract class QuizEntry implements BaseColumns{
         public static final String TABLE_NAME = "quizEntry";
@@ -40,7 +35,6 @@ public class QuizDBContract {
         //The following 5 methods are to build URIs for various selections of data in the quiz table. These URIs will be recognized by the content provider to look up desired data
         public static Uri buildUriQuizId(long id){
             Uri uri = CONTENT_URI.buildUpon().appendPath(Long.toString(id)).build();
-////            Log.d("testCategoryId",uri.toString());
             return uri;
         }
 
@@ -48,17 +42,6 @@ public class QuizDBContract {
             return CONTENT_URI.buildUpon().appendPath(COLUMN_NAME_SCORE).appendPath(_ID).appendPath(Long.toString(id)).build();
         }
 
-        public static Uri buildUriQuizTimeOverallForId(long id){
-            return CONTENT_URI.buildUpon().appendPath(COLUMN_NAME_AVERAGE_TIME_OVERALL).appendPath(_ID).appendPath(Long.toString(id)).build();
-        }
-
-        public static Uri buildUriQuizTimeCorrectForId(long id){
-            return CONTENT_URI.buildUpon().appendPath(COLUMN_NAME_AVERAGE_TIME_CORRECT).appendPath(_ID).appendPath(Long.toString(id)).build();
-        }
-
-        public static Uri buildUriQuizTimeWrongForId(long id){
-            return CONTENT_URI.buildUpon().appendPath(COLUMN_NAME_AVERAGE_TIME_WRONG).appendPath(_ID).appendPath(Long.toString(id)).build();
-        }
     }
 
     public static abstract class CategoryEntry implements BaseColumns{
@@ -80,14 +63,12 @@ public class QuizDBContract {
 
         public static Uri buildUriCategoryId(long id){
             Uri uri = CONTENT_URI.buildUpon().appendPath(Long.toString(id)).build();
-////            Log.d("testCategoryId",uri.toString());
             return uri;
         }
 
         //The following 7 methods are to build URIs for various selections of data in the quiz table. These URIs will be recognized by the content provider to look up desired data
         public static Uri buildUriCategoryIndex(int index){
             Uri uri = CONTENT_URI.buildUpon().appendPath(Integer.toString(index + 1)).build();
-////            Log.d("testCategoryId",uri.toString());
             return uri;
         }
 
@@ -99,22 +80,5 @@ public class QuizDBContract {
         public static Uri buildUriCategoryTotalQuestionsAnsweredForId(long id){
             return CONTENT_URI.buildUpon().appendPath(COLUMN_NAME_TOTAL_QUESTIONS_ANSWERED).appendPath(_ID).appendPath(Long.toString(id)).build();
         }
-
-        public static Uri buildUriCategoryCorrectlyAnsweredForId(long id){
-            return CONTENT_URI.buildUpon().appendPath(COLUMN_NAME_CORRECTLY_ANSWERED).appendPath(_ID).appendPath(Long.toString(id)).build();
-        }
-
-        public static Uri buildUriCategoryTimeOverallForId(long id){
-            return CONTENT_URI.buildUpon().appendPath(COLUMN_NAME_TOTAL_TIME_OVERALL).appendPath(_ID).appendPath(Long.toString(id)).build();
-        }
-
-        public static Uri buildUriCategoryTimeCorrectForId(long id){
-            return CONTENT_URI.buildUpon().appendPath(COLUMN_NAME_TOTAL_TIME_CORRECT).appendPath(_ID).appendPath(Long.toString(id)).build();
-        }
-
-        public static Uri buildUriCategoryTimeWrongForId(long id){
-            return CONTENT_URI.buildUpon().appendPath(COLUMN_NAME_TOTAL_TIME_WRONG).appendPath(_ID).appendPath(Long.toString(id)).build();
-        }
     }
-
 }

@@ -41,9 +41,8 @@ public class QuestionScorer implements Parcelable {
         this.timeTaken = in.readInt();
         this.mCorrectAnswer = in.readInt();
         this.mChosenAnswer = in.readInt();
-        boolean[] correct = new boolean[1];
-        in.readBooleanArray(correct);
-        this.mCorrect = correct[0];
+        byte trueOrNot = in.readByte();
+        this.mCorrect = (trueOrNot == 0);
     }
 
     @Override
@@ -53,9 +52,8 @@ public class QuestionScorer implements Parcelable {
         parcel.writeInt(timeTaken);
         parcel.writeInt(mCorrectAnswer);
         parcel.writeInt(mChosenAnswer);
-        boolean[] correct = new boolean[1];
-        correct[0] = mCorrect;
-        parcel.writeBooleanArray(correct);
+        byte correct = (byte) (( mCorrect ) ? 0 : 1);
+        parcel.writeByte( correct );
     }
 
     @Override
@@ -69,6 +67,7 @@ public class QuestionScorer implements Parcelable {
             return new QuestionScorer(parcel);
         }
 
+        // There to deserialize an array of Parcelable QuestionScorers
         @Override
         public Object[] newArray(int i) {
             return new QuestionScorer[i];
@@ -96,6 +95,10 @@ public class QuestionScorer implements Parcelable {
     }
 
     public void setTimeTaken(int timeTaken) {
-        this.timeTaken = timeTaken;
+        if( timeTaken >= 0 ){
+            this.timeTaken = timeTaken;
+        }
+//        else
+//            throw new IllegalStateException("ERROR: Time must be a positive integer.");
     }
 }
